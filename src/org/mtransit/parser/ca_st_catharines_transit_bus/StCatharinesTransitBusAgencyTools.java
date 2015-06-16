@@ -348,20 +348,33 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		return MSpec.cleanLabel(tripHeadsign);
 	}
 
-	private static final Pattern AT = Pattern.compile("( at )", Pattern.CASE_INSENSITIVE);
-	private static final String AT_REPLACEMENT = " / ";
+	private static final Pattern AND_NOT = Pattern.compile("(&)", Pattern.CASE_INSENSITIVE);
+	private static final String AND_NOT_REPLACEMENT = "and";
 
-	private static final Pattern AND = Pattern.compile("( & )", Pattern.CASE_INSENSITIVE);
-	private static final String AND_REPLACEMENT = " / ";
+	private static final Pattern AND = Pattern.compile("((^|\\W){1}(and)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final String AND_REPLACEMENT = "$2&$4";
+
+	private static final Pattern AT = Pattern.compile(
+			"((^|\\W){1}(across fr[\\.]?|after|at|before|between both|between|east of|in front of|north of|opp|south of|west of)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final String AT_REPLACEMENT = "$2/$4";
+
+	private static final Pattern AND_SLASH = Pattern.compile("((^|\\W){1}(&)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final String AND_SLASH_REPLACEMENT = "$2/$4";
+
+	private static final Pattern ENDS_WITH = Pattern.compile("((&|/|\\-)[\\W]*$)", Pattern.CASE_INSENSITIVE);
 
 	@Override
 	public String cleanStopName(String gStopName) {
 		gStopName = gStopName.toLowerCase(Locale.ENGLISH);
-		gStopName = AT.matcher(gStopName).replaceAll(AT_REPLACEMENT);
+		gStopName = AND_NOT.matcher(gStopName).replaceAll(AND_NOT_REPLACEMENT); // fix Alex&ra
 		gStopName = AND.matcher(gStopName).replaceAll(AND_REPLACEMENT);
+		gStopName = AND_SLASH.matcher(gStopName).replaceAll(AND_SLASH_REPLACEMENT);
+		gStopName = AT.matcher(gStopName).replaceAll(AT_REPLACEMENT);
 		gStopName = POINT.matcher(gStopName).replaceAll(POINT_REPLACEMENT);
 		gStopName = POINTS.matcher(gStopName).replaceAll(POINTS_REPLACEMENT);
 		gStopName = MSpec.cleanNumbers(gStopName);
+		gStopName = MSpec.cleanStreetTypes(gStopName);
+		gStopName = ENDS_WITH.matcher(gStopName).replaceAll(StringUtils.EMPTY);
 		return MSpec.cleanLabel(gStopName);
 	}
 
