@@ -355,7 +355,8 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String AND_REPLACEMENT = "$2&$4";
 
 	private static final Pattern AT = Pattern.compile(
-			"((^|\\W){1}(across fr[\\.]?|after|at|before|between both|between|east of|in front of|north of|opp|south of|west of)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+			"((^|\\W){1}(across fr[\\.]?|after|at|before|between both|between|east of|in front of|north of|opp|south of|west of)(\\W|$){1})",
+			Pattern.CASE_INSENSITIVE);
 	private static final String AT_REPLACEMENT = "$2/$4";
 
 	private static final Pattern AND_SLASH = Pattern.compile("((^|\\W){1}(&)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
@@ -528,6 +529,17 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		if (Utils.isDigitsOnly(stopCode)) {
 			return Integer.parseInt(stopCode); // using stop code as stop ID
 		}
+		if (stopCode.equals(DTT)) {
+			return 100000;
+		} else if (stopCode.equals(NFT)) {
+			return 100001;
+		} else if (stopCode.equals(PEN2)) {
+			return 100002;
+		} else if (stopCode.equals(SWM)) {
+			return 100003;
+		} else if (stopCode.equals(WEL)) {
+			return 100004;
+		}
 		try {
 			Matcher matcher = DIGITS.matcher(stopCode);
 			if (matcher.find()) {
@@ -558,18 +570,6 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		} catch (Exception e) {
 			System.out.println("Error while finding stop ID for " + gStop);
 			e.printStackTrace();
-		}
-
-		if (stopCode.equals(DTT)) {
-			return 100000;
-		} else if (stopCode.equals(NFT)) {
-			return 100001;
-		} else if (stopCode.equals(PEN2)) {
-			return 100002;
-		} else if (stopCode.equals(SWM)) {
-			return 100003;
-		} else if (stopCode.equals(WEL)) {
-			return 100004;
 		}
 		int routeId;
 		if (stopCode.startsWith(ALNBG)) {
