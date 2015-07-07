@@ -16,7 +16,7 @@ import org.mtransit.parser.gtfs.data.GStop;
 import org.mtransit.parser.gtfs.data.GTrip;
 import org.mtransit.parser.mt.data.MAgency;
 import org.mtransit.parser.mt.data.MRoute;
-import org.mtransit.parser.mt.data.MSpec;
+import org.mtransit.parser.CleanUtils;
 import org.mtransit.parser.mt.data.MTrip;
 
 // http://www.niagararegion.ca/government/opendata/data-set.aspx#id=32
@@ -37,11 +37,11 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public void start(String[] args) {
-		System.out.printf("Generating St Catharines Transit bus data...\n");
+		System.out.printf("\nGenerating St Catharines Transit bus data...\n");
 		long start = System.currentTimeMillis();
 		this.serviceIds = extractUsefulServiceIds(args, this);
 		super.start(args);
-		System.out.printf("Generating St Catharines Transit bus data... DONE in %s.\n", Utils.getPrettyDuration(System.currentTimeMillis() - start));
+		System.out.printf("\nGenerating St Catharines Transit bus data... DONE in %s.\n", Utils.getPrettyDuration(System.currentTimeMillis() - start));
 	}
 
 
@@ -108,8 +108,8 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		String routeLongName = gRoute.route_long_name;
 		routeLongName = POINT.matcher(routeLongName).replaceAll(POINT_REPLACEMENT);
 		routeLongName = POINTS.matcher(routeLongName).replaceAll(POINTS_REPLACEMENT);
-		routeLongName = MSpec.cleanStreetTypes(routeLongName);
-		return MSpec.cleanLabel(routeLongName);
+		routeLongName = CleanUtils.cleanStreetTypes(routeLongName);
+		return CleanUtils.cleanLabel(routeLongName);
 	}
 
 	private static final String AGENCY_COLOR_GREEN = "008E1A"; // GREEN (from web site CSS)
@@ -344,8 +344,8 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		tripHeadsign = STARTS_WITH_RSN_RLN.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
 		tripHeadsign = POINT.matcher(tripHeadsign).replaceAll(POINT_REPLACEMENT);
 		tripHeadsign = POINTS.matcher(tripHeadsign).replaceAll(POINTS_REPLACEMENT);
-		tripHeadsign = MSpec.cleanStreetTypes(tripHeadsign);
-		return MSpec.cleanLabel(tripHeadsign);
+		tripHeadsign = CleanUtils.cleanStreetTypes(tripHeadsign);
+		return CleanUtils.cleanLabel(tripHeadsign);
 	}
 
 	private static final Pattern AND_NOT = Pattern.compile("(&)", Pattern.CASE_INSENSITIVE);
@@ -373,10 +373,10 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		gStopName = AT.matcher(gStopName).replaceAll(AT_REPLACEMENT);
 		gStopName = POINT.matcher(gStopName).replaceAll(POINT_REPLACEMENT);
 		gStopName = POINTS.matcher(gStopName).replaceAll(POINTS_REPLACEMENT);
-		gStopName = MSpec.cleanNumbers(gStopName);
-		gStopName = MSpec.cleanStreetTypes(gStopName);
+		gStopName = CleanUtils.cleanNumbers(gStopName);
+		gStopName = CleanUtils.cleanStreetTypes(gStopName);
 		gStopName = ENDS_WITH.matcher(gStopName).replaceAll(StringUtils.EMPTY);
-		return MSpec.cleanLabel(gStopName);
+		return CleanUtils.cleanLabel(gStopName);
 	}
 
 	private static final String ZERO_0 = "0";
