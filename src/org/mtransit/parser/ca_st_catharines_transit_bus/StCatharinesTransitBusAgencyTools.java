@@ -73,7 +73,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public boolean excludeRoute(GRoute gRoute) {
-		if (!gRoute.agency_id.contains(ST_CATHARINES_TRANSIT_COMMISSION)) {
+		if (!gRoute.getAgencyId().contains(ST_CATHARINES_TRANSIT_COMMISSION)) {
 			return true;
 		}
 		return super.excludeRoute(gRoute);
@@ -81,7 +81,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public boolean excludeStop(GStop gStop) {
-		if (IGNORE_STOP_ID.matcher(gStop.stop_id).find()) {
+		if (IGNORE_STOP_ID.matcher(gStop.getStopId()).find()) {
 			return true; // other agency
 		}
 		return super.excludeStop(gStop);
@@ -94,7 +94,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public long getRouteId(GRoute gRoute) {
-		return Long.valueOf(gRoute.route_short_name); // using route short name as route ID
+		return Long.valueOf(gRoute.getRouteShortName()); // using route short name as route ID
 	}
 
 	private static final Pattern POINT = Pattern.compile("((^|\\W){1}([\\w]{1})\\.(\\W|$){1})", Pattern.CASE_INSENSITIVE);
@@ -105,7 +105,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public String getRouteLongName(GRoute gRoute) {
-		String routeLongName = gRoute.route_long_name;
+		String routeLongName = gRoute.getRouteLongName();
 		routeLongName = POINT.matcher(routeLongName).replaceAll(POINT_REPLACEMENT);
 		routeLongName = POINTS.matcher(routeLongName).replaceAll(POINTS_REPLACEMENT);
 		routeLongName = CleanUtils.cleanStreetTypes(routeLongName);
@@ -145,7 +145,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public String getRouteColor(GRoute gRoute) {
-		int rsn = Integer.parseInt(gRoute.route_short_name);
+		int rsn = Integer.parseInt(gRoute.getRouteShortName());
 		switch (rsn) {
 		// @formatter:off
 		case 1: return COLOR_ED1B24;
@@ -222,119 +222,119 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	@Override
 	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
 		if (mRoute.id == 3l) {
-			if (gTrip.direction_id == 0) {
+			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignString(DSBN_ACADEMY, OUTBOUND);
 				return;
-			} else if (gTrip.direction_id == 1) {
+			} else if (gTrip.getDirectionId() == 1) {
 				mTrip.setHeadsignString(DOWNTOWN, INBOUND);
 				return;
 			}
 		} else if (mRoute.id == 4l) {
-			if (gTrip.direction_id == 0) {
+			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignString(BROCK, OUTBOUND);
 				return;
-			} else if (gTrip.direction_id == 1) {
+			} else if (gTrip.getDirectionId() == 1) {
 				mTrip.setHeadsignString(DOWNTOWN, INBOUND);
 				return;
 			}
 		} else if (mRoute.id == 5l) {
-			if (gTrip.direction_id == 0) {
+			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignString(LINWELL, OUTBOUND);
 				return;
-			} else if (gTrip.direction_id == 1) {
+			} else if (gTrip.getDirectionId() == 1) {
 				mTrip.setHeadsignString(DOWNTOWN, INBOUND);
 				return;
 			}
 		} else if (mRoute.id == 20l) {
-			if (gTrip.direction_id == 0) {
+			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignString(THOROLD, OUTBOUND);
 				return;
-			} else if (gTrip.direction_id == 1) {
+			} else if (gTrip.getDirectionId() == 1) {
 				mTrip.setHeadsignString(PEN_CTR, INBOUND);
 				return;
 			}
 		} else if (mRoute.id == 22l) {
-			if (gTrip.direction_id == 0) {
+			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignString(LYNN_CR, OUTBOUND);
 				return;
-			} else if (gTrip.direction_id == 1) {
+			} else if (gTrip.getDirectionId() == 1) {
 				mTrip.setHeadsignString(TOWPATH, INBOUND);
 				return;
 			}
 		} else if (mRoute.id == 23l) {
-			if (gTrip.direction_id == 0) {
+			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignString(MAC_TURNBULL_LOUTH_ST, OUTBOUND);
 				return;
-			} else if (gTrip.direction_id == 1) {
+			} else if (gTrip.getDirectionId() == 1) {
 				mTrip.setHeadsignString(BROCK, INBOUND);
 				return;
 			}
 		} else if (mRoute.id == 25l) {
-			if (gTrip.direction_id == 0) {
+			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignString(BROCK, OUTBOUND);
 				return;
-			} else if (gTrip.direction_id == 1) {
+			} else if (gTrip.getDirectionId() == 1) {
 				mTrip.setHeadsignString(DOWNTOWN, INBOUND);
 				return;
 			}
 		} else if (mRoute.id == 28l) {
-			if (gTrip.direction_id == 0) {
+			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignString(BROCK, OUTBOUND);
 				return;
-			} else if (gTrip.direction_id == 1) {
+			} else if (gTrip.getDirectionId() == 1) {
 				mTrip.setHeadsignString(TOWPATH, INBOUND);
 				return;
 			}
 		} else if (mRoute.id == 32l) {
-			if (gTrip.direction_id == 0) {
+			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignString(NIAGARA_FALLS, OUTBOUND);
 				return;
-			} else if (gTrip.direction_id == 1) {
+			} else if (gTrip.getDirectionId() == 1) {
 				mTrip.setHeadsignString(NC_WELLAND_CAMP, INBOUND);
 				return;
 			}
 		} else if (mRoute.id == 33l) {
-			if (gTrip.direction_id == 0) {
+			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignString(NIAGARA_FALLS, OUTBOUND);
 				return;
-			} else if (gTrip.direction_id == 1) {
+			} else if (gTrip.getDirectionId() == 1) {
 				mTrip.setHeadsignString(NC_NOTL_CAMPUS, INBOUND);
 				return;
 			}
 		} else if (mRoute.id == 112l) {
-			if (gTrip.direction_id == 0) {
+			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignString(LAKESHORE_VINE_ST, OUTBOUND);
 				return;
-			} else if (gTrip.direction_id == 1) {
+			} else if (gTrip.getDirectionId() == 1) {
 				mTrip.setHeadsignString(DOWNTOWN, INBOUND);
 				return;
 			}
 		} else if (mRoute.id == 120l) {
-			if (gTrip.direction_id == 0) {
+			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignString(THOROLD, OUTBOUND);
 				return;
-			} else if (gTrip.direction_id == 1) {
+			} else if (gTrip.getDirectionId() == 1) {
 				mTrip.setHeadsignString(PEN_CTR, INBOUND);
 				return;
 			}
 		} else if (mRoute.id == 122l) {
-			if (gTrip.direction_id == 0) {
+			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignString(PEN_CTR, OUTBOUND);
 				return;
-			} else if (gTrip.direction_id == 1) {
+			} else if (gTrip.getDirectionId() == 1) {
 				mTrip.setHeadsignString(BROCK, INBOUND);
 				return;
 			}
 		} else if (mRoute.id == 124l) {
-			if (gTrip.direction_id == 0) {
+			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignString(BROCK, OUTBOUND);
 				return;
-			} else if (gTrip.direction_id == 1) {
+			} else if (gTrip.getDirectionId() == 1) {
 				mTrip.setHeadsignString(PEN_CTR, INBOUND);
 				return;
 			}
 		}
-		mTrip.setHeadsignString(cleanTripHeadsign(gTrip.trip_headsign), gTrip.direction_id);
+		mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), gTrip.getDirectionId());
 	}
 
 	private static final Pattern STARTS_WITH_RSN_RLN = Pattern.compile("(^[0-9]{1,3} (([\\w]+[\\.]? )+\\- )*)", Pattern.CASE_INSENSITIVE);
@@ -386,16 +386,16 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public String getStopCode(GStop gStop) {
-		if (ZERO_0.equals(gStop.stop_code)) {
-			if (gStop.stop_id.startsWith(STC_F_STOP)) {
-				return gStop.stop_id.substring(STC_F_STOP.length());
+		if (ZERO_0.equals(gStop.getStopCode())) {
+			if (gStop.getStopId().startsWith(STC_F_STOP)) {
+				return gStop.getStopId().substring(STC_F_STOP.length());
 			}
 			return null;
 		}
-		if (gStop.stop_code.startsWith(STO)) {
-			return gStop.stop_code.substring(STO.length());
+		if (gStop.getStopCode().startsWith(STO)) {
+			return gStop.getStopCode().substring(STO.length());
 		}
-		if (!Utils.isDigitsOnly(gStop.stop_code)) {
+		if (!Utils.isDigitsOnly(gStop.getStopCode())) {
 			return null;
 		}
 		return super.getStopCode(gStop);
@@ -518,12 +518,12 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public int getStopId(GStop gStop) {
-		if (IGNORE_STOP_ID.matcher(gStop.stop_id).find()) {
+		if (IGNORE_STOP_ID.matcher(gStop.getStopId()).find()) {
 			return -1; // other agency
 		}
-		String stopCode = gStop.stop_code;
+		String stopCode = gStop.getStopCode();
 		if (stopCode == null || stopCode.length() == 0 || ZERO_0.equals(stopCode)) {
-			stopCode = gStop.stop_id;
+			stopCode = gStop.getStopId();
 		}
 		stopCode = PRE_STOP_ID.matcher(stopCode).replaceAll(StringUtils.EMPTY);
 		if (Utils.isDigitsOnly(stopCode)) {
@@ -634,7 +634,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 			routeId = 1410000;
 		} else if (stopCode.startsWith(NW_GN)) {
 			routeId = 1420000;
-		} else if (stopCode.startsWith(ONT) || gStop.stop_name.startsWith(ONTARIO_ST)) {
+		} else if (stopCode.startsWith(ONT) || gStop.getStopName().startsWith(ONTARIO_ST)) {
 			routeId = 1500000;
 		} else if (stopCode.startsWith(ORMD)) {
 			routeId = 1510000;
