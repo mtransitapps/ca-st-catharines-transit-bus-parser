@@ -69,7 +69,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		return super.excludeTrip(gTrip);
 	}
 
-	private static final String ST_CATHARINES_TRANSIT_COMMISSION = "_St. Catharines Transit Commission";
+	private static final String ST_CATHARINES_TRANSIT_COMMISSION = "St. Catharines Transit Commission";
 
 	@Override
 	public boolean excludeRoute(GRoute gRoute) {
@@ -97,17 +97,10 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		return Long.valueOf(gRoute.getRouteShortName()); // using route short name as route ID
 	}
 
-	private static final Pattern POINT = Pattern.compile("((^|\\W){1}([\\w]{1})\\.(\\W|$){1})", Pattern.CASE_INSENSITIVE);
-	private static final String POINT_REPLACEMENT = "$2$3$4";
-
-	private static final Pattern POINTS = Pattern.compile("((^|\\W){1}([\\w]+)\\.(\\W|$){1})", Pattern.CASE_INSENSITIVE);
-	private static final String POINTS_REPLACEMENT = "$2$3$4";
-
 	@Override
 	public String getRouteLongName(GRoute gRoute) {
 		String routeLongName = gRoute.getRouteLongName();
-		routeLongName = POINT.matcher(routeLongName).replaceAll(POINT_REPLACEMENT);
-		routeLongName = POINTS.matcher(routeLongName).replaceAll(POINTS_REPLACEMENT);
+		routeLongName = CleanUtils.removePoints(routeLongName);
 		routeLongName = CleanUtils.cleanStreetTypes(routeLongName);
 		return CleanUtils.cleanLabel(routeLongName);
 	}
@@ -142,6 +135,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String COLOR_92D050 = "92D050";
 	private static final String COLOR_E77B48 = "E77B48";
 	private static final String COLOR_005496 = "005496";
+	private static final String COLOR_00B050 = "00B050";
 
 	@Override
 	public String getRouteColor(GRoute gRoute) {
@@ -175,6 +169,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		case 28: return COLOR_92D050;
 		case 29: return COLOR_4594A9;
 		case 30: return COLOR_005496;
+		case 31: return COLOR_00B050;
 		case 32: return COLOR_166FC1;
 		case 33: return COLOR_166FC1;
 		case 101: return COLOR_ED1B24;
@@ -210,7 +205,8 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String NC_WELLAND_CAMP = "NC Welland Camp";
 	private static final String NIAGARA_FALLS = "Niagara Falls";
 	private static final String NC_NOTL_CAMPUS = "NC NOTL Campus";
-	private static final String LAKESHORE_VINE_ST = "Lakeshore / Vine St";
+	private static final String LAKESHORE = "Lakeshore";
+	private static final String LAKESHORE_VINE_ST = LAKESHORE + " / Vine St";
 	private static final String DOWNTOWN = "Downtown";
 	private static final String THOROLD = "Thorold";
 	private static final String BROCK = "Brock";
@@ -301,6 +297,14 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString(NC_NOTL_CAMPUS, INBOUND);
 				return;
 			}
+		} else if (mRoute.id == 102l) {
+			if (gTrip.getDirectionId() == 0) {
+				mTrip.setHeadsignString(LAKESHORE, OUTBOUND);
+				return;
+			} else if (gTrip.getDirectionId() == 1) {
+				mTrip.setHeadsignString(DOWNTOWN, INBOUND);
+				return;
+			}
 		} else if (mRoute.id == 112l) {
 			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignString(LAKESHORE_VINE_ST, OUTBOUND);
@@ -342,8 +346,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	@Override
 	public String cleanTripHeadsign(String tripHeadsign) {
 		tripHeadsign = STARTS_WITH_RSN_RLN.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
-		tripHeadsign = POINT.matcher(tripHeadsign).replaceAll(POINT_REPLACEMENT);
-		tripHeadsign = POINTS.matcher(tripHeadsign).replaceAll(POINTS_REPLACEMENT);
+		tripHeadsign = CleanUtils.removePoints(tripHeadsign);
 		tripHeadsign = CleanUtils.cleanStreetTypes(tripHeadsign);
 		return CleanUtils.cleanLabel(tripHeadsign);
 	}
@@ -371,8 +374,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		gStopName = AND.matcher(gStopName).replaceAll(AND_REPLACEMENT);
 		gStopName = AND_SLASH.matcher(gStopName).replaceAll(AND_SLASH_REPLACEMENT);
 		gStopName = AT.matcher(gStopName).replaceAll(AT_REPLACEMENT);
-		gStopName = POINT.matcher(gStopName).replaceAll(POINT_REPLACEMENT);
-		gStopName = POINTS.matcher(gStopName).replaceAll(POINTS_REPLACEMENT);
+		gStopName = CleanUtils.removePoints(gStopName);
 		gStopName = CleanUtils.cleanNumbers(gStopName);
 		gStopName = CleanUtils.cleanStreetTypes(gStopName);
 		gStopName = ENDS_WITH.matcher(gStopName).replaceAll(StringUtils.EMPTY);
@@ -383,12 +385,20 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 
 	private static final String STO = "Sto";
 	private static final String STC_F_STOP = "STC_F_Stop";
+	private static final String STC_F2015_STOP = "STC_F2015_Stop";
+	private static final String STC_F2015_STO = "STC_F2015_Sto";
 
 	@Override
 	public String getStopCode(GStop gStop) {
 		if (ZERO_0.equals(gStop.getStopCode())) {
 			if (gStop.getStopId().startsWith(STC_F_STOP)) {
 				return gStop.getStopId().substring(STC_F_STOP.length());
+			}
+			if (gStop.getStopId().startsWith(STC_F2015_STOP)) {
+				return gStop.getStopId().substring(STC_F2015_STOP.length());
+			}
+			if (gStop.getStopId().startsWith(STC_F2015_STO)) {
+				return gStop.getStopId().substring(STC_F2015_STO.length());
 			}
 			return null;
 		}
@@ -403,7 +413,8 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 
 	private static final Pattern DIGITS = Pattern.compile("[\\d]+");
 
-	private static final Pattern PRE_STOP_ID = Pattern.compile("(STC_F_Stop|STC_F_|STC_S2015_Stop|STC_S2014_|Sto)", Pattern.CASE_INSENSITIVE);
+	private static final Pattern PRE_STOP_ID = Pattern.compile("(STC_F_Stop|STC_F_|STC_F2015_Stop|STC_F2015_|STC_S2015_Stop|STC_S2014_|Sto)",
+			Pattern.CASE_INSENSITIVE);
 
 	private static final Pattern IGNORE_STOP_ID = Pattern.compile("(^(S_FE|NF|PC|WE))", Pattern.CASE_INSENSITIVE);
 
@@ -515,6 +526,14 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String PEN2 = "PEN";
 	private static final String NFT = "NFT";
 	private static final String DTT = "DTT";
+	private static final String BAS = "BAS";
+	private static final String BRU = "BRU";
+	private static final String DAS = "DAS";
+	private static final String FVM = "FVM";
+	private static final String GLW = "GLW";
+	private static final String LIG = "LIG";
+	private static final String QUP = "QUP";
+	private static final String WSM = "WSM";
 
 	@Override
 	public int getStopId(GStop gStop) {
@@ -539,6 +558,22 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 			return 100003;
 		} else if (stopCode.equals(WEL)) {
 			return 100004;
+		} else if (stopCode.equals(BAS)) {
+			return 100005;
+		} else if (stopCode.equals(BRU)) {
+			return 100006;
+		} else if (stopCode.equals(DAS)) {
+			return 100007;
+		} else if (stopCode.equals(FVM)) {
+			return 100008;
+		} else if (stopCode.equals(GLW)) {
+			return 100009;
+		} else if (stopCode.equals(LIG)) {
+			return 100010;
+		} else if (stopCode.equals(QUP)) {
+			return 100011;
+		} else if (stopCode.equals(WSM)) {
+			return 100012;
 		}
 		try {
 			Matcher matcher = DIGITS.matcher(stopCode);
@@ -561,14 +596,14 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 				} else if (stopCode.startsWith(SCWE)) {
 					routeId += 190000;
 				} else {
-					System.out.println("Unexpected stop ID (starts with digits) " + gStop);
+					System.out.printf("\nUnexpected stop ID (starts with digits) %s", gStop);
 					System.exit(-1);
 					routeId = -1;
 				}
 				return routeId;
 			}
 		} catch (Exception e) {
-			System.out.println("Error while finding stop ID for " + gStop);
+			System.out.printf("\nError while finding stop ID for %s", gStop);
 			e.printStackTrace();
 		}
 		int routeId;
@@ -679,7 +714,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		} else if (stopCode.startsWith(WLND)) {
 			routeId = 2340000;
 		} else {
-			System.out.println("Unexpected stop ID (starts with) " + gStop);
+			System.out.printf("\nUnexpected stop ID (starts with) %s", gStop);
 			System.exit(-1);
 			routeId = -1;
 		}
@@ -798,7 +833,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		} else if (stopCode.endsWith(WMBL)) {
 			routeId += 2302;
 		} else {
-			System.out.println("Unexpected stop ID (ends with) " + gStop);
+			System.out.printf("\nUnexpected stop ID (ends with) %s", gStop);
 			System.exit(-1);
 			routeId = -1;
 		}
