@@ -197,26 +197,66 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		}
 	}
 
-	private static final String LINWELL = "Linwell";
-	private static final String LINWELL_RD = LINWELL + " Rd";
+	private static final String LINWELL_RD = "Linwell Rd";
 	private static final String LYNN_CR = "Lynn Cr";
 	private static final String TOWPATH = "Towpath";
 	private static final String NC_WELLAND_CAMP = "NC Welland Camp";
 	private static final String NIAGARA_FALLS = "Niagara Falls";
 	private static final String NC_NOTL_CAMPUS = "NC NOTL Campus";
-	private static final String LAKESHORE = "Lakeshore";
-	private static final String LAKESHORE_VINE_ST = LAKESHORE + " / Vine St";
+	private static final String ST_DAVIDS_RD = "St Davids Rd";
+	private static final String LAKESHORE_RD = "Lakeshore Rd";
+	private static final String LAKESHORE_VINE_ST = "Lakeshore / Vine St";
 	private static final String DOWNTOWN = "Downtown";
 	private static final String THOROLD = "Thorold";
-	private static final String BROCK = "Brock";
-	private static final String BROCK_UNIVERSITY = BROCK + " University";
+	private static final String BROCK_UNIVERSITY = "Brock University";
 	private static final String PEN_CTR = "Pen Ctr";
+	private static final String WINTERBERRY_BLVD = "Winterberry Blvd";
 
 	@Override
 	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
-		if (mRoute.getId() == 5l) {
+		if (mRoute.getId() == 2l) {
 			if (gTrip.getDirectionId() == 0) {
+				mTrip.setHeadsignString(LAKESHORE_RD, gTrip.getDirectionId());
+				return;
+			}
+		} else if (mRoute.getId() == 5l) {
+			if (gTrip.getDirectionId() == 1) {
 				mTrip.setHeadsignString(DOWNTOWN, gTrip.getDirectionId());
+				return;
+			}
+		} else if (mRoute.getId() == 8l) {
+			if (gTrip.getDirectionId() == 0) {
+				mTrip.setHeadsignString(LAKESHORE_RD, gTrip.getDirectionId());
+				return;
+			}
+		} else if (mRoute.getId() == 9l) {
+			if (gTrip.getDirectionId() == 0) {
+				mTrip.setHeadsignString(LAKESHORE_RD, gTrip.getDirectionId());
+				return;
+			}
+		} else if (mRoute.getId() == 11l) {
+			if (gTrip.getDirectionId() == 0) {
+				mTrip.setHeadsignString(ST_DAVIDS_RD, gTrip.getDirectionId());
+				return;
+			}
+		} else if (mRoute.getId() == 12l) {
+			if (gTrip.getDirectionId() == 0) {
+				mTrip.setHeadsignString(LAKESHORE_RD, gTrip.getDirectionId());
+				return;
+			}
+		} else if (mRoute.getId() == 15l) {
+			if (gTrip.getDirectionId() == 0) {
+				mTrip.setHeadsignString(PEN_CTR, gTrip.getDirectionId());
+				return;
+			}
+		} else if (mRoute.getId() == 16l) {
+			if (gTrip.getDirectionId() == 0) {
+				mTrip.setHeadsignString(BROCK_UNIVERSITY, gTrip.getDirectionId());
+				return;
+			}
+		} else if (mRoute.getId() == 17l) {
+			if (gTrip.getDirectionId() == 0) {
+				mTrip.setHeadsignString(LINWELL_RD, gTrip.getDirectionId());
 				return;
 			}
 		} else if (mRoute.getId() == 20l) {
@@ -227,6 +267,10 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString(PEN_CTR, gTrip.getDirectionId());
 				return;
 			}
+		} else if (mRoute.getId() == 21l) {
+			if (gTrip.getDirectionId() == 0) {
+				mTrip.setHeadsignString(BROCK_UNIVERSITY, gTrip.getDirectionId());
+				return;
 		} else if (mRoute.getId() == 22l) {
 			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignString(LYNN_CR, gTrip.getDirectionId());
@@ -245,10 +289,36 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mRoute.getId() == 25l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignString(BROCK, gTrip.getDirectionId());
+				mTrip.setHeadsignString(BROCK_UNIVERSITY, gTrip.getDirectionId());
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
 				mTrip.setHeadsignString(DOWNTOWN, gTrip.getDirectionId());
+				return;
+			}
+		} else if (mRoute.getId() == 28l) {
+			if (gTrip.getDirectionId() == 0) {
+				mTrip.setHeadsignString(BROCK_UNIVERSITY, gTrip.getDirectionId());
+				return;
+			} else if (gTrip.getDirectionId() == 1) {
+				mTrip.setHeadsignString(THOROLD, gTrip.getDirectionId());
+				return;
+			}
+		} else if (mRoute.getId() == 29l) {
+			if (gTrip.getDirectionId() == 1) {
+				mTrip.setHeadsignString(BROCK_UNIVERSITY, gTrip.getDirectionId());
+				return;
+			}
+		} else if (mRoute.getId() == 30l) {
+			if (gTrip.getDirectionId() == 1) {
+				mTrip.setHeadsignString(BROCK_UNIVERSITY, gTrip.getDirectionId());
+				return;
+			}
+		} else if (mRoute.getId() == 31l) {
+			if (gTrip.getDirectionId() == 0) {
+				mTrip.setHeadsignString(WINTERBERRY_BLVD, gTrip.getDirectionId());
+				return;
+			} else if (gTrip.getDirectionId() == 1) {
+				mTrip.setHeadsignString(BROCK_UNIVERSITY, gTrip.getDirectionId());
 				return;
 			}
 		} else if (mRoute.getId() == 32l) {
@@ -275,6 +345,11 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString(DOWNTOWN, gTrip.getDirectionId());
 				return;
 			}
+		} else if (mRoute.getId() == 115l) {
+			if (gTrip.getDirectionId() == 0) {
+				mTrip.setHeadsignString(PEN_CTR, gTrip.getDirectionId());
+				return;
+			}
 		} else if (mRoute.getId() == 120l) {
 			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignString(THOROLD, gTrip.getDirectionId());
@@ -288,12 +363,12 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString(PEN_CTR, gTrip.getDirectionId());
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignString(BROCK, gTrip.getDirectionId());
+				mTrip.setHeadsignString(BROCK_UNIVERSITY, gTrip.getDirectionId());
 				return;
 			}
 		} else if (mRoute.getId() == 124l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignString(BROCK, gTrip.getDirectionId());
+				mTrip.setHeadsignString(BROCK_UNIVERSITY, gTrip.getDirectionId());
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
 				mTrip.setHeadsignString(PEN_CTR, gTrip.getDirectionId());
@@ -311,8 +386,13 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 				return true;
 			}
 		} else if (mTrip.getRouteId() == 5l) {
-			if (mTrip.getHeadsignId() == 1) {
+			if (mTrip.getHeadsignId() == 0) {
 				mTrip.setHeadsignString(LINWELL_RD, mTrip.getHeadsignId());
+				return true;
+			}
+		} else if (mTrip.getRouteId() == 101l) {
+			if (mTrip.getHeadsignId() == 1) {
+				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (mTrip.getRouteId() == 102l) {
