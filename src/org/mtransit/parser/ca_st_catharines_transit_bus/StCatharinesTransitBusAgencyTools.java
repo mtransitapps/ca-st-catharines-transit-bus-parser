@@ -39,7 +39,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	public void start(String[] args) {
 		System.out.printf("\nGenerating St Catharines Transit bus data...");
 		long start = System.currentTimeMillis();
-		this.serviceIds = extractUsefulServiceIds(args, this);
+		this.serviceIds = extractUsefulServiceIds(args, this, true);
 		super.start(args);
 		System.out.printf("\nGenerating St Catharines Transit bus data... DONE in %s.\n", Utils.getPrettyDuration(System.currentTimeMillis() - start));
 	}
@@ -197,10 +197,9 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		}
 	}
 
-	private static final String DSBN_ACADEMY = "DSBN Academy";
 	private static final String LINWELL = "Linwell";
+	private static final String LINWELL_RD = LINWELL + " Rd";
 	private static final String LYNN_CR = "Lynn Cr";
-	private static final String MAC_TURNBULL_LOUTH_ST = "MacTurnbull / Louth St";
 	private static final String TOWPATH = "Towpath";
 	private static final String NC_WELLAND_CAMP = "NC Welland Camp";
 	private static final String NIAGARA_FALLS = "Niagara Falls";
@@ -210,135 +209,119 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String DOWNTOWN = "Downtown";
 	private static final String THOROLD = "Thorold";
 	private static final String BROCK = "Brock";
+	private static final String BROCK_UNIVERSITY = BROCK + " University";
 	private static final String PEN_CTR = "Pen Ctr";
-
-	private static final int INBOUND = 0;
-	private static final int OUTBOUND = 1;
 
 	@Override
 	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
-		if (mRoute.getId() == 3l) {
+		if (mRoute.getId() == 5l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignString(DSBN_ACADEMY, OUTBOUND);
-				return;
-			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignString(DOWNTOWN, INBOUND);
-				return;
-			}
-		} else if (mRoute.getId() == 4l) {
-			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignString(BROCK, OUTBOUND);
-				return;
-			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignString(DOWNTOWN, INBOUND);
-				return;
-			}
-		} else if (mRoute.getId() == 5l) {
-			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignString(LINWELL, OUTBOUND);
-				return;
-			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignString(DOWNTOWN, INBOUND);
+				mTrip.setHeadsignString(DOWNTOWN, gTrip.getDirectionId());
 				return;
 			}
 		} else if (mRoute.getId() == 20l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignString(THOROLD, OUTBOUND);
+				mTrip.setHeadsignString(THOROLD, gTrip.getDirectionId());
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignString(PEN_CTR, INBOUND);
+				mTrip.setHeadsignString(PEN_CTR, gTrip.getDirectionId());
 				return;
 			}
 		} else if (mRoute.getId() == 22l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignString(LYNN_CR, OUTBOUND);
+				mTrip.setHeadsignString(LYNN_CR, gTrip.getDirectionId());
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignString(TOWPATH, INBOUND);
+				mTrip.setHeadsignString(TOWPATH, gTrip.getDirectionId());
 				return;
 			}
 		} else if (mRoute.getId() == 23l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignString(MAC_TURNBULL_LOUTH_ST, OUTBOUND);
+				mTrip.setHeadsignString(WEST, gTrip.getDirectionId());
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignString(BROCK, INBOUND);
+				mTrip.setHeadsignString(BROCK_UNIVERSITY, gTrip.getDirectionId());
 				return;
 			}
 		} else if (mRoute.getId() == 25l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignString(BROCK, OUTBOUND);
+				mTrip.setHeadsignString(BROCK, gTrip.getDirectionId());
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignString(DOWNTOWN, INBOUND);
-				return;
-			}
-		} else if (mRoute.getId() == 28l) {
-			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignString(BROCK, OUTBOUND);
-				return;
-			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignString(TOWPATH, INBOUND);
+				mTrip.setHeadsignString(DOWNTOWN, gTrip.getDirectionId());
 				return;
 			}
 		} else if (mRoute.getId() == 32l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignString(NIAGARA_FALLS, OUTBOUND);
+				mTrip.setHeadsignString(NIAGARA_FALLS, gTrip.getDirectionId());
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignString(NC_WELLAND_CAMP, INBOUND);
+				mTrip.setHeadsignString(NC_WELLAND_CAMP, gTrip.getDirectionId());
 				return;
 			}
 		} else if (mRoute.getId() == 33l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignString(NIAGARA_FALLS, OUTBOUND);
+				mTrip.setHeadsignString(NIAGARA_FALLS, gTrip.getDirectionId());
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignString(NC_NOTL_CAMPUS, INBOUND);
-				return;
-			}
-		} else if (mRoute.getId() == 102l) {
-			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignString(LAKESHORE, OUTBOUND);
-				return;
-			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignString(DOWNTOWN, INBOUND);
+				mTrip.setHeadsignString(NC_NOTL_CAMPUS, gTrip.getDirectionId());
 				return;
 			}
 		} else if (mRoute.getId() == 112l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignString(LAKESHORE_VINE_ST, OUTBOUND);
+				mTrip.setHeadsignString(LAKESHORE_VINE_ST, gTrip.getDirectionId());
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignString(DOWNTOWN, INBOUND);
+				mTrip.setHeadsignString(DOWNTOWN, gTrip.getDirectionId());
 				return;
 			}
 		} else if (mRoute.getId() == 120l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignString(THOROLD, OUTBOUND);
+				mTrip.setHeadsignString(THOROLD, gTrip.getDirectionId());
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignString(PEN_CTR, INBOUND);
+				mTrip.setHeadsignString(PEN_CTR, gTrip.getDirectionId());
 				return;
 			}
 		} else if (mRoute.getId() == 122l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignString(PEN_CTR, OUTBOUND);
+				mTrip.setHeadsignString(PEN_CTR, gTrip.getDirectionId());
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignString(BROCK, INBOUND);
+				mTrip.setHeadsignString(BROCK, gTrip.getDirectionId());
 				return;
 			}
 		} else if (mRoute.getId() == 124l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignString(BROCK, OUTBOUND);
+				mTrip.setHeadsignString(BROCK, gTrip.getDirectionId());
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignString(PEN_CTR, INBOUND);
+				mTrip.setHeadsignString(PEN_CTR, gTrip.getDirectionId());
 				return;
 			}
 		}
 		mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), gTrip.getDirectionId());
+	}
+
+	@Override
+	public boolean mergeHeadsign(MTrip mTrip, MTrip mTripToMerge) {
+		if (mTrip.getRouteId() == 3l) {
+			if (mTrip.getHeadsignId() == 1) {
+				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
+				return true;
+			}
+		} else if (mTrip.getRouteId() == 5l) {
+			if (mTrip.getHeadsignId() == 1) {
+				mTrip.setHeadsignString(LINWELL_RD, mTrip.getHeadsignId());
+				return true;
+			}
+		} else if (mTrip.getRouteId() == 102l) {
+			if (mTrip.getHeadsignId() == 1) {
+				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
+				return true;
+			}
+		}
+		return super.mergeHeadsign(mTrip, mTripToMerge);
 	}
 
 	private static final Pattern STARTS_WITH_RSN_RLN = Pattern.compile("(^[0-9]{1,3} (([\\w]+[\\.]? )+\\- )*)", Pattern.CASE_INSENSITIVE);
