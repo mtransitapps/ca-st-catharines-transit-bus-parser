@@ -210,18 +210,18 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	private static final String LINWELL_RD = "Linwell Rd";
-	private static final String LYNN_CR = "Lynn Cr";
-	private static final String TOWPATH = "Towpath";
 	private static final String NC_NOTL_CAMPUS = "NC NOTL Campus";
 	private static final String DOWNTOWN = "Downtown";
 	private static final String THOROLD = "Thorold";
+	private static final String THOROLD_SOUTH = THOROLD + " South";
+	private static final String PORT_ROBINSON = "Port Robinson";
 	private static final String BROCK_UNIVERSITY = "Brock"; // University
 	private static final String PEN_CTR = "Pen Ctr";
 	private static final String DUNKELD_CARLTON = "Dunkeld & Carlton";
 	private static final String FAIRVIEW_MALL = "Fairview Mall";
 	private static final String WEST_ = "West";
 
-	private static final String STOP_ = "STC_W2016";
+	private static final String STOP_ = "STC_S_2016_";
 	private static final String STOP_0218 = STOP_ + "Stop0218";
 	private static final String STOP_0228 = STOP_ + "Stop0228";
 	private static final String STOP_0470 = STOP_ + "Stop0470";
@@ -235,6 +235,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String STOP_2206 = STOP_ + "Stop2206";
 	private static final String STOP_ALNBG_LYN = STOP_ + "AlnbgLyn";
 	private static final String STOP_BAS = STOP_ + "BAS";
+	private static final String STOP_BIS = STOP_ + "BIS";
 	private static final String STOP_BRU = STOP_ + "BRU";
 	private static final String STOP_CRMT_TOWP = STOP_ + "CrmtTowp";
 	private static final String STOP_DNKL_CRLT = STOP_ + "DnklCrlt";
@@ -269,12 +270,12 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 						Arrays.asList(new String[] { STOP_CRMT_TOWP, STOP_TWNL_QUEN, STOP_0997, STOP_PEN_CNTR })) //
 				.compileBothTripSort());
 		map2.put(22l, new RouteTripSpec(22l, //
-				0, MTrip.HEADSIGN_TYPE_STRING, LYNN_CR, //
-				1, MTrip.HEADSIGN_TYPE_STRING, TOWPATH) //
+				0, MTrip.HEADSIGN_TYPE_STRING, PORT_ROBINSON, // LYNN_CR
+				1, MTrip.HEADSIGN_TYPE_STRING, THOROLD_SOUTH) // TOWPATH
 				.addTripSort(0, //
-						Arrays.asList(new String[] { STOP_CRMT_TOWP, STOP_NI_FLS_ALL, STOP_2206, STOP_ALNBG_LYN })) //
+						Arrays.asList(new String[] { STOP_CRMT_TOWP, STOP_BAS, STOP_NI_FLS_ALL, STOP_2206, STOP_ALNBG_LYN, STOP_BIS })) //
 				.addTripSort(1, //
-						Arrays.asList(new String[] { STOP_ALNBG_LYN, STOP_BAS, STOP_CRMT_TOWP })) //
+						Arrays.asList(new String[] { STOP_BIS, STOP_ALNBG_LYN, STOP_NI_FLS_ALL, STOP_BAS, STOP_CRMT_TOWP })) //
 				.compileBothTripSort());
 		map2.put(23l, new RouteTripSpec(23l, //
 				0, MTrip.HEADSIGN_TYPE_STRING, WEST_, //
@@ -654,6 +655,12 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 			return 100012;
 		} else if (stopCode.equals(MIW)) {
 			return 100013;
+		} else if (stopCode.equals("BIS")) {
+			return 100014;
+		} else if (stopCode.equals("BRR")) {
+			return 100015;
+		} else if (stopCode.equals("CER")) {
+			return 100016;
 		}
 		try {
 			Matcher matcher = DIGITS.matcher(stopCode);
