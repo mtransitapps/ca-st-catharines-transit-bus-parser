@@ -142,11 +142,14 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String COLOR_00823C = "00823C";
 	private static final String COLOR_485683 = "485683";
 	private static final String COLOR_48A1AF = "48A1AF";
-	private static final String COLOR_4594A9 = "4594A9";
+	private static final String COLOR_3A9CB9 = "3A9CB9";
 	private static final String COLOR_92D050 = "92D050";
 	private static final String COLOR_E77B48 = "E77B48";
-	private static final String COLOR_005496 = "005496";
-	private static final String COLOR_00B050 = "00B050";
+	private static final String COLOR_00A551 = "00A551";
+	private static final String COLOR_005FAC = "005FAC";
+	private static final String COLOR_E24E26 = "E24E26";
+	private static final String COLOR_4CA392 = "4CA392";
+	private static final String COLOR_EC1D25 = "EC1D25";
 
 	@Override
 	public String getRouteColor(GRoute gRoute) {
@@ -178,12 +181,13 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		case 26: return COLOR_ED1B24;
 		case 27: return COLOR_ED1B24;
 		case 28: return COLOR_92D050;
-		case 29: return COLOR_4594A9;
-		case 30: return COLOR_005496;
-		case 31: return COLOR_00B050;
+		case 29: return COLOR_3A9CB9;
+		case 30: return COLOR_005FAC;
+		case 31: return COLOR_00A551;
 		case 32: return COLOR_166FC1;
 		case 33: return COLOR_166FC1;
-		case 34: return null; // TODO ?
+		case 35: return COLOR_4CA392;
+		case 36: return COLOR_E24E26;
 		case 101: return COLOR_ED1B24;
 		case 102: return COLOR_166FC1;
 		case 104: return COLOR_00ADEF;
@@ -201,7 +205,12 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		case 122: return COLOR_48A1AF;
 		case 124: return COLOR_E77B48;
 		case 128: return COLOR_ED1B24;
-		case 216: return null; // TODO ?
+		case 129: return COLOR_3A9CB9;
+		case 130: return COLOR_005FAC;
+		case 131: return COLOR_00A551;
+		case 135: return COLOR_4CA392;
+		case 136: return COLOR_E24E26;
+		case 216: return COLOR_EC1D25;
 		// @formatter:on
 		default:
 			System.out.printf("\nUnexpected route color for %s!\n", gRoute);
@@ -229,7 +238,9 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String STOP_0632 = STOP_ + "Stop0632";
 	private static final String STOP_0710 = STOP_ + "Stop0710";
 	private static final String STOP_0778 = STOP_ + "Stop0778";
+	private static final String STOP_0831 = STOP_ + "Stop0831";
 	private static final String STOP_0839 = STOP_ + "Stop0839";
+	private static final String STOP_0842 = STOP_ + "Stop0842";
 	private static final String STOP_0997 = STOP_ + "Stop0997";
 	private static final String STOP_1206 = STOP_ + "Stop1206";
 	private static final String STOP_1290 = STOP_ + "Stop1290";
@@ -310,6 +321,22 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 				.addTripSort(1, //
 						Arrays.asList(new String[] { STOP_PEN_CNTR, STOP_0632, STOP_GLND_CMPS })) //
 				.compileBothTripSort());
+		map2.put(36l, new RouteTripSpec(36l, //
+				0, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY, //
+				1, MTrip.HEADSIGN_TYPE_STRING, PEN_CTR) //
+				.addTripSort(0, //
+						Arrays.asList(new String[] { //
+						STOP_PEN_CNTR, // 221 Glendale Av
+								STOP_0831, //
+								STOP_BRU, // Brock University
+						})) //
+				.addTripSort(1, //
+						Arrays.asList(new String[] { //
+						STOP_BRU, // Brock University
+								STOP_0842, //
+								STOP_PEN_CNTR // 221 Glendale Av
+						})) //
+				.compileBothTripSort());
 		map2.put(120l, new RouteTripSpec(120l, //
 				0, MTrip.HEADSIGN_TYPE_STRING, THOROLD, //
 				1, MTrip.HEADSIGN_TYPE_STRING, PEN_CTR) //
@@ -317,6 +344,22 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 						Arrays.asList(new String[] { STOP_PEN_CNTR, STOP_ORMD_RICH, STOP_CRMT_TOWP })) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { STOP_CRMT_TOWP, STOP_1290, STOP_PEN_CNTR })) //
+				.compileBothTripSort());
+		map2.put(136l, new RouteTripSpec(136l, //
+				0, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY, //
+				1, MTrip.HEADSIGN_TYPE_STRING, PEN_CTR) //
+				.addTripSort(0, //
+						Arrays.asList(new String[] { //
+						STOP_PEN_CNTR, // 221 Glendale Av
+								STOP_0831, //
+								STOP_BRU, // Brock University
+						})) //
+				.addTripSort(1, //
+						Arrays.asList(new String[] { //
+						STOP_BRU, // Brock University
+								STOP_0842, //
+								STOP_PEN_CNTR // 221 Glendale Av
+						})) //
 				.compileBothTripSort());
 		map2.put(216l, new RouteTripSpec(216l, //
 				0, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY, //
