@@ -31,6 +31,7 @@ import org.mtransit.parser.mt.data.MTripStop;
 
 // http://www.niagararegion.ca/government/opendata/data-set.aspx#id=32
 // http://maps-dev.niagararegion.ca/GoogleTransit/NiagaraRegionTransit.zip
+// https://maps-beta.niagararegion.ca/Transit/Production/NiagaraRegionTransit.zip
 public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 
 	public static void main(String[] args) {
@@ -221,7 +222,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String FAIRVIEW_MALL = "Fairview Mall";
 	private static final String WEST_ = "West";
 
-	private static final String STOP_ = "STC_S_2016_";
+	private static final String STOP_ = "W2017_";
 	private static final String STOP_0218 = STOP_ + "Stop0218";
 	private static final String STOP_0228 = STOP_ + "Stop0228";
 	private static final String STOP_0470 = STOP_ + "Stop0470";
@@ -257,9 +258,17 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 				MDirectionType.EAST.intValue(), MTrip.HEADSIGN_TYPE_STRING, DUNKELD_CARLTON, //
 				MDirectionType.WEST.intValue(), MTrip.HEADSIGN_TYPE_STRING, FAIRVIEW_MALL) //
 				.addTripSort(MDirectionType.EAST.intValue(), //
-						Arrays.asList(new String[] { STOP_FVM, STOP_0710, STOP_DNKL_CRLT })) //
+						Arrays.asList(new String[] { //
+						STOP_FVM, // Fairview Mall
+								STOP_0710, //
+								STOP_DNKL_CRLT // Dunkeld Av & Carlton St
+						})) //
 				.addTripSort(MDirectionType.WEST.intValue(), //
-						Arrays.asList(new String[] { STOP_DNKL_CRLT, STOP_0470, STOP_FVM })) //
+						Arrays.asList(new String[] { //
+						STOP_DNKL_CRLT, // Dunkeld Av & Carlton St
+								STOP_0470, //
+								STOP_FVM // Fairview Mall
+						})) //
 				.compileBothTripSort());
 		map2.put(20l, new RouteTripSpec(20l, //
 				0, MTrip.HEADSIGN_TYPE_STRING, THOROLD, //
@@ -490,6 +499,8 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 			+ "STC_[F|S|W]_Stop|" //
 			+ "STC_[F|S|W]_|" //
 			+ "STC_[F|S|W]|" //
+			+ "[F|S|W][0-9]{4}_Stop|" //
+			+ "[F|S|W][0-9]{4}_|" //
 			+ "Sto" //
 			+ ")", //
 			Pattern.CASE_INSENSITIVE);
@@ -661,6 +672,8 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 			return 100015;
 		} else if (stopCode.equals("CER")) {
 			return 100016;
+		} else if (stopCode.equals("VIL")) {
+			return 100017;
 		}
 		try {
 			Matcher matcher = DIGITS.matcher(stopCode);
