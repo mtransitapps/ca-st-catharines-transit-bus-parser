@@ -24,14 +24,12 @@ import org.mtransit.parser.gtfs.data.GStop;
 import org.mtransit.parser.gtfs.data.GTrip;
 import org.mtransit.parser.gtfs.data.GTripStop;
 import org.mtransit.parser.mt.data.MAgency;
-import org.mtransit.parser.mt.data.MDirectionType;
 import org.mtransit.parser.mt.data.MRoute;
 import org.mtransit.parser.mt.data.MTrip;
 import org.mtransit.parser.mt.data.MTripStop;
 
 // http://www.niagararegion.ca/government/opendata/data-set.aspx#id=32
-// http://maps-dev.niagararegion.ca/GoogleTransit/NiagaraRegionTransit.zip
-// http://www.niagararegion.ca/downloads/transit/NiagaraRegionTransit.zip
+// https://maps.niagararegio n.ca/googletransit/NiagaraRegionTransit.zip
 public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 
 	public static void main(String[] args) {
@@ -54,7 +52,6 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		super.start(args);
 		System.out.printf("\nGenerating St Catharines Transit bus data... DONE in %s.\n", Utils.getPrettyDuration(System.currentTimeMillis() - start));
 	}
-
 
 	@Override
 	public boolean excludeCalendar(GCalendar gCalendar) {
@@ -135,140 +132,135 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String COLOR_486762 = "486762";
 	private static final String COLOR_F25373 = "F25373";
 	private static final String COLOR_8E1890 = "8E1890";
-	private static final String COLOR_00ADEF = "00ADEF";
 	private static final String COLOR_00A650 = "00A650";
 	private static final String COLOR_24528E = "24528E";
 	private static final String COLOR_166FC1 = "166FC1";
 	private static final String COLOR_C81070 = "C81070";
 	private static final String COLOR_ED1B24 = "ED1B24";
-	private static final String COLOR_A4835A = "A4835A";
 	private static final String COLOR_00823C = "00823C";
 	private static final String COLOR_485683 = "485683";
 	private static final String COLOR_48A1AF = "48A1AF";
 	private static final String COLOR_3A9CB9 = "3A9CB9";
 	private static final String COLOR_92D050 = "92D050";
-	private static final String COLOR_E77B48 = "E77B48";
 	private static final String COLOR_00A551 = "00A551";
 	private static final String COLOR_005FAC = "005FAC";
 	private static final String COLOR_E24E26 = "E24E26";
 	private static final String COLOR_4CA392 = "4CA392";
-	private static final String COLOR_EC1D25 = "EC1D25";
 
 	@Override
 	public String getRouteColor(GRoute gRoute) {
-		int rsn = Integer.parseInt(gRoute.getRouteShortName());
-		switch (rsn) {
-		// @formatter:off
-		case 1: return COLOR_ED1B24;
-		case 2: return COLOR_00A650;
-		case 3: return COLOR_ED008C;
-		case 4: return COLOR_F68713;
-		case 5: return COLOR_8E1890;
-		case 6: return COLOR_ED1B24;
-		case 7: return COLOR_4CC6F5;
-		case 8: return COLOR_48A1AF;
-		case 9: return COLOR_48A1AF;
-		case 10: return COLOR_24528E;
-		case 11: return COLOR_0A8ED8;
-		case 12: return COLOR_00A650;
-		case 14: return COLOR_C81070;
-		case 15: return COLOR_00823C;
-		case 16: return COLOR_ED1B24;
-		case 17: return COLOR_8E1890;
-		case 18: return COLOR_00823C;
-		case 20: return COLOR_485683;
-		case 21: return COLOR_486762;
-		case 22: return COLOR_F25373;
-		case 23: return COLOR_8E1890;
-		case 25: return COLOR_ED1B24;
-		case 26: return COLOR_ED1B24;
-		case 27: return COLOR_ED1B24;
-		case 28: return COLOR_92D050;
-		case 29: return COLOR_3A9CB9;
-		case 30: return COLOR_005FAC;
-		case 31: return COLOR_00A551;
-		case 32: return COLOR_166FC1;
-		case 33: return COLOR_166FC1;
-		case 35: return COLOR_4CA392;
-		case 36: return COLOR_E24E26;
-		case 88: return null; // TODO ?
-		case 101: return COLOR_ED1B24;
-		case 102: return COLOR_166FC1;
-		case 104: return COLOR_00ADEF;
-		case 106: return COLOR_ED1B24;
-		case 108: return COLOR_00A650;
-		case 109: return COLOR_A4835A;
-		case 110: return COLOR_24528E;
-		case 112: return COLOR_166FC1;
-		case 114: return COLOR_C81070;
-		case 115: return COLOR_00823C;
-		case 116: return COLOR_ED1B24;
-		case 117: return COLOR_A4835A;
-		case 118: return COLOR_00823C;
-		case 120: return COLOR_485683;
-		case 122: return COLOR_48A1AF;
-		case 124: return COLOR_E77B48;
-		case 128: return COLOR_ED1B24;
-		case 129: return COLOR_3A9CB9;
-		case 130: return COLOR_005FAC;
-		case 131: return COLOR_00A551;
-		case 135: return COLOR_4CA392;
-		case 136: return COLOR_E24E26;
-		case 216: return COLOR_EC1D25;
-		// @formatter:on
-		default:
-			System.out.printf("\nUnexpected route color for %s!\n", gRoute);
-			System.exit(-1);
-			return null;
+		if (StringUtils.isEmpty(gRoute.getRouteColor())) {
+			int rsn = Integer.parseInt(gRoute.getRouteShortName());
+			switch (rsn) {
+			// @formatter:off
+			case 26: return "ED1B24";
+			case 27: return "ED1B24";
+			case 301: return COLOR_ED1B24;
+			case 302: return COLOR_00A650;
+			case 303: return COLOR_ED008C;
+			case 304: return COLOR_F68713;
+			case 305: return COLOR_8E1890;
+			case 306: return COLOR_ED1B24;
+			case 307: return COLOR_4CC6F5;
+			case 308: return COLOR_48A1AF;
+			case 309: return COLOR_48A1AF;
+			case 310: return COLOR_24528E;
+			case 311: return COLOR_0A8ED8;
+			case 312: return COLOR_00A650;
+			case 314: return COLOR_C81070;
+			case 315: return COLOR_00823C;
+			case 316: return COLOR_ED1B24;
+			case 317: return COLOR_8E1890;
+			case 318: return COLOR_00823C;
+			case 320: return COLOR_485683;
+			case 321: return COLOR_486762;
+			case 322: return COLOR_F25373;
+			case 323: return COLOR_8E1890;
+			case 324: return "0060AD"; // BLUE
+			case 325: return COLOR_ED1B24;
+			case 326: return COLOR_ED1B24;
+			case 327: return COLOR_ED1B24;
+			case 328: return COLOR_92D050;
+			case 329: return COLOR_3A9CB9;
+			case 330: return COLOR_005FAC;
+			case 331: return COLOR_00A551;
+			case 332: return COLOR_166FC1;
+			case 333: return COLOR_166FC1;
+			case 335: return COLOR_4CA392;
+			case 336: return COLOR_E24E26;
+			case 401: return "EE1C25"; // RED
+			case 402: return "0072BB"; // BLUE
+			case 404: return "00ADEF"; // LIGHT BLUE
+			case 406: return "EE1C25"; // RED
+			case 408: return "00A652"; // GREEN
+			case 409: return "A88B6B"; // LIGHT BROWN
+			case 410: return "05558A"; // DRAK BLUE
+			case 412: return "0072BB"; // BLUE
+			case 414: return "C81c6E"; // PURPLE
+			case 415: return "008744"; // GREEN
+			case 416: return "EE1C25"; // RED
+			case 417: return "A88B6B"; // LIGHT BROWN
+			case 418: return "008744"; // GREEN
+			case 420: return "485E87"; // BLUE-ISH
+			case 421: return "486F6E"; // GREEN-ISH
+			case 423: return "7570B3"; // LIGHT PURPLE // ?
+			case 424: return "0060AD"; // BLUE
+			case 425: return null; // ?
+			case 428: return "A3CE62"; // LIGHT GREEN
+			case 431: return "00A652"; // GREEN
+			case 435: return "4FA491";
+			case 436: return "F58345"; // ORANGE
+			// @formatter:on
+			default:
+				if (isGoodEnoughAccepted()) {
+					return null;
+				}
+				System.out.printf("\nUnexpected route color for %s!\n", gRoute);
+				System.exit(-1);
+				return null;
+			}
 		}
+		return super.getRouteColor(gRoute);
 	}
 
-	private static final String NC_NOTL_CAMPUS = "NC NOTL Campus";
 	private static final String DOWNTOWN = "Downtown";
 	private static final String THOROLD = "Thorold";
 	private static final String THOROLD_SOUTH = THOROLD + " South";
 	private static final String PORT_ROBINSON = "Port Robinson";
 	private static final String BROCK_UNIVERSITY = "Brock"; // University
 	private static final String PEN_CTR = "Pen Ctr";
-	private static final String DUNKELD_CARLTON = "Dunkeld & Carlton";
 	private static final String FAIRVIEW_MALL = "Fairview Mall";
 	private static final String WEST_ = "West";
 
-	private static final String STOP_ = "ST_S";
-	private static final String STOP_0218 = STOP_ + "Stop0218";
+	private static final String STOP_ = "STC_F17_";
 	private static final String STOP_0219 = STOP_ + "Stop0219";
 	private static final String STOP_0220 = STOP_ + "Stop0220";
 	private static final String STOP_0222 = STOP_ + "Stop0222";
 	private static final String STOP_0223 = STOP_ + "Stop0223";
 	private static final String STOP_0224 = STOP_ + "Stop0224";
-	private static final String STOP_0228 = STOP_ + "Stop0228";
 	private static final String STOP_0237 = STOP_ + "Stop0237";
 	private static final String STOP_0238 = STOP_ + "Stop0238";
-	private static final String STOP_0470 = STOP_ + "Stop0470";
-	private static final String STOP_0632 = STOP_ + "Stop0632";
-	private static final String STOP_0710 = STOP_ + "Stop0710";
 	private static final String STOP_0778 = STOP_ + "Stop0778";
 	private static final String STOP_0831 = STOP_ + "Stop0831";
 	private static final String STOP_0839 = STOP_ + "Stop0839";
 	private static final String STOP_0842 = STOP_ + "Stop0842";
 	private static final String STOP_0967 = STOP_ + "Stop0967";
 	private static final String STOP_0997 = STOP_ + "Stop0997";
-	private static final String STOP_1206 = STOP_ + "Stop1206";
+	private static final String STOP_1030 = STOP_ + "Stop1030";
+	private static final String STOP_1294 = STOP_ + "Stop1294";
 	private static final String STOP_1290 = STOP_ + "Stop1290";
 	private static final String STOP_1316 = STOP_ + "Stop1316";
 	private static final String STOP_1317 = STOP_ + "Stop1317";
 	private static final String STOP_1336 = STOP_ + "Stop1336";
 	private static final String STOP_2206 = STOP_ + "Stop2206";
-	private static final String STOP_ALNBG_LYN = STOP_ + "AlnbgLyn";
+
 	private static final String STOP_BAS = STOP_ + "BAS";
 	private static final String STOP_BIS = STOP_ + "BIS";
 	private static final String STOP_BRU = STOP_ + "BRU";
+	private static final String STOP_RIC = STOP_ + "RIC";
+
+	private static final String STOP_ALNBG_LYN = STOP_ + "AlnbgLyn";
 	private static final String STOP_CRMT_TOWP = STOP_ + "CrmtTowp";
-	private static final String STOP_DNKL_CRLT = STOP_ + "DnklCrlt";
-	private static final String STOP_DTT = STOP_ + "DTT";
-	private static final String STOP_FVM = STOP_ + "FVM";
-	private static final String STOP_GLND_CMPS = STOP_ + "GlndCmps";
-	private static final String STOP_GRDG_GLMR = STOP_ + "GrdgGlmr";
 	private static final String STOP_MAC_T_LOUT = STOP_ + "MacTLout";
 	private static final String STOP_NI_FLS_ALL = STOP_ + "NiFlsAll";
 	private static final String STOP_ORMD_RICH = STOP_ + "OrmdRich";
@@ -277,69 +269,78 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String STOP_TWNL_QUEN = STOP_ + "TwnlQuen";
 	private static final String STOP_GNDL_BRHL = STOP_ + "GndlBrhl";
 	private static final String STOP_ST_D_CLR = STOP_ + "StDClr";
-	private static final String STOP_STK = STOP_ + "STK";
-	private static final String STOP_MCS = STOP_ + "MCS";
 
 	private static HashMap<Long, RouteTripSpec> ALL_ROUTE_TRIPS2;
 	static {
 		HashMap<Long, RouteTripSpec> map2 = new HashMap<Long, RouteTripSpec>();
-		map2.put(14l, new RouteTripSpec(14l, //
-				MDirectionType.EAST.intValue(), MTrip.HEADSIGN_TYPE_STRING, DUNKELD_CARLTON, //
-				MDirectionType.WEST.intValue(), MTrip.HEADSIGN_TYPE_STRING, FAIRVIEW_MALL) //
-				.addTripSort(MDirectionType.EAST.intValue(), //
-						Arrays.asList(new String[] { //
-						STOP_FVM, // Fairview Mall
-								STOP_0710, //
-								STOP_DNKL_CRLT // Dunkeld Av & Carlton St
-						})) //
-				.addTripSort(MDirectionType.WEST.intValue(), //
-						Arrays.asList(new String[] { //
-						STOP_DNKL_CRLT, // Dunkeld Av & Carlton St
-								STOP_0470, //
-								STOP_FVM // Fairview Mall
-						})) //
-				.compileBothTripSort());
-		map2.put(20l, new RouteTripSpec(20l, //
+		map2.put(320l, new RouteTripSpec(320l, //
 				0, MTrip.HEADSIGN_TYPE_STRING, THOROLD, //
 				1, MTrip.HEADSIGN_TYPE_STRING, PEN_CTR) //
 				.addTripSort(0, //
-						Arrays.asList(new String[] { STOP_PEN_CNTR, STOP_ORMD_RICH, STOP_CRMT_TOWP })) //
+						Arrays.asList(new String[] { //
+						STOP_PEN_CNTR, //
+								STOP_ORMD_RICH, //
+								STOP_CRMT_TOWP, //
+						})) //
 				.addTripSort(1, //
-						Arrays.asList(new String[] { STOP_CRMT_TOWP, STOP_TWNL_QUEN, STOP_0997, STOP_PEN_CNTR })) //
+						Arrays.asList(new String[] { //
+						STOP_CRMT_TOWP, //
+								STOP_TWNL_QUEN, //
+								STOP_0997, //
+								STOP_PEN_CNTR, //
+						})) //
 				.compileBothTripSort());
-		map2.put(22l, new RouteTripSpec(22l, //
+		map2.put(322l, new RouteTripSpec(322l, //
 				0, MTrip.HEADSIGN_TYPE_STRING, PORT_ROBINSON, // LYNN_CR
 				1, MTrip.HEADSIGN_TYPE_STRING, THOROLD_SOUTH) // TOWPATH
 				.addTripSort(0, //
-						Arrays.asList(new String[] { STOP_CRMT_TOWP, STOP_BAS, STOP_NI_FLS_ALL, STOP_2206, STOP_ALNBG_LYN, STOP_BIS })) //
+						Arrays.asList(new String[] { //
+						STOP_CRMT_TOWP, //
+								STOP_BAS, STOP_NI_FLS_ALL, //
+								STOP_2206, STOP_ALNBG_LYN, //
+								STOP_BIS, //
+						})) //
 				.addTripSort(1, //
-						Arrays.asList(new String[] { STOP_BIS, STOP_ALNBG_LYN, STOP_NI_FLS_ALL, STOP_BAS, STOP_CRMT_TOWP })) //
+						Arrays.asList(new String[] { //
+						STOP_BIS, STOP_ALNBG_LYN, //
+								STOP_NI_FLS_ALL, STOP_BAS, //
+								STOP_CRMT_TOWP, //
+						})) //
 				.compileBothTripSort());
-		map2.put(23l, new RouteTripSpec(23l, //
+		map2.put(323L, new RouteTripSpec(23l, //
 				0, MTrip.HEADSIGN_TYPE_STRING, WEST_, //
 				1, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY) //
 				.addTripSort(0, //
-						Arrays.asList(new String[] { STOP_BRU, STOP_0839, STOP_MAC_T_LOUT })) //
+						Arrays.asList(new String[] { //
+						STOP_BRU, // Brock University
+								STOP_0839, //
+								STOP_MAC_T_LOUT //
+						})) //
 				.addTripSort(1, //
-						Arrays.asList(new String[] { STOP_MAC_T_LOUT, STOP_0778, STOP_PELM_GNDL, STOP_BRU })) //
+						Arrays.asList(new String[] { //
+						STOP_MAC_T_LOUT, //
+								STOP_0778, //
+								STOP_PELM_GNDL, //
+								STOP_BRU, // Brock University
+						})) //
 				.compileBothTripSort());
-		map2.put(25l, new RouteTripSpec(25l, //
+		map2.put(324L, new RouteTripSpec(324L, //
 				0, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY, //
-				1, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) //
+				1, MTrip.HEADSIGN_TYPE_STRING, "Tupper") //
 				.addTripSort(0, //
-						Arrays.asList(new String[] { STOP_DTT, STOP_0228, STOP_BRU })) //
+						Arrays.asList(new String[] { //
+						STOP_BRU, // Brock University
+								STOP_1030, // ++
+								STOP_RIC, // Richmond St & Confederation Av
+						})) //
 				.addTripSort(1, //
-						Arrays.asList(new String[] { STOP_BRU, STOP_1206, STOP_DTT })) //
+						Arrays.asList(new String[] { //
+						STOP_RIC, // Richmond St & Confederation Av
+								STOP_1294, // ++
+								STOP_BRU, // Brock University
+						})) //
 				.compileBothTripSort());
-		map2.put(34l, new RouteTripSpec(34l, //
-				0, MTrip.HEADSIGN_TYPE_STRING, PEN_CTR, //
-				1, MTrip.HEADSIGN_TYPE_STRING, NC_NOTL_CAMPUS) //
-				.addTripSort(0, //
-						Arrays.asList(new String[] { STOP_GLND_CMPS, STOP_0218, STOP_PEN_CNTR })) //
-				.addTripSort(1, //
-						Arrays.asList(new String[] { STOP_PEN_CNTR, STOP_0632, STOP_GLND_CMPS })) //
-				.compileBothTripSort());
-		map2.put(36l, new RouteTripSpec(36l, //
+		map2.put(336L, new RouteTripSpec(336L, //
 				0, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY, //
 				1, MTrip.HEADSIGN_TYPE_STRING, PEN_CTR) //
 				.addTripSort(0, //
@@ -355,22 +356,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 								STOP_PEN_CNTR // 221 Glendale Av
 						})) //
 				.compileBothTripSort());
-		map2.put(88L, new RouteTripSpec(88L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, "Stokes", // "AM"
-				1, MTrip.HEADSIGN_TYPE_STRING, PEN_CTR) // "PM"
-				.addTripSort(0, //
-						Arrays.asList(new String[] { //
-						STOP_MCS, // Monseignor Clancy
-								STOP_STK, // Stokes Seeds
-						})) //
-				.addTripSort(1, //
-						Arrays.asList(new String[] { //
-						STOP_STK, // Stokes Seeds
-								STOP_0220, //
-								STOP_PEN_CNTR // 221 Glendale Av
-						})) //
-				.compileBothTripSort());
-		map2.put(120L, new RouteTripSpec(120L, //
+		map2.put(420L, new RouteTripSpec(420L, //
 				0, MTrip.HEADSIGN_TYPE_STRING, THOROLD, //
 				1, MTrip.HEADSIGN_TYPE_STRING, PEN_CTR) //
 				.addTripSort(0, //
@@ -402,7 +388,39 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 								STOP_PEN_CNTR // == 221 Glendale Av
 						})) //
 				.compileBothTripSort());
-		map2.put(136l, new RouteTripSpec(136l, //
+		map2.put(423L, new RouteTripSpec(423L, //
+				0, MTrip.HEADSIGN_TYPE_STRING, WEST_, //
+				1, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY) //
+				.addTripSort(0, //
+						Arrays.asList(new String[] { //
+						STOP_BRU, // Brock University
+								STOP_0839, // ++
+								STOP_MAC_T_LOUT, // MacTurnbull Dr & Louth St
+						})) //
+				.addTripSort(1, //
+						Arrays.asList(new String[] { //
+						STOP_MAC_T_LOUT, // , // MacTurnbull Dr & Louth St
+								STOP_0778, // ++
+								STOP_BRU, // Brock University
+						})) //
+				.compileBothTripSort());
+		map2.put(424L, new RouteTripSpec(424L, //
+				0, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY, //
+				1, MTrip.HEADSIGN_TYPE_STRING, "Tupper") //
+				.addTripSort(0, //
+						Arrays.asList(new String[] { //
+						STOP_BRU, // Brock University
+								STOP_1030, // ++
+								STOP_RIC, // Richmond St & Confederation Av
+						})) //
+				.addTripSort(1, //
+						Arrays.asList(new String[] { //
+						STOP_RIC, // Richmond St & Confederation Av
+								STOP_1294, // ++
+								STOP_BRU, // Brock University
+						})) //
+				.compileBothTripSort());
+		map2.put(436L, new RouteTripSpec(436L, //
 				0, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY, //
 				1, MTrip.HEADSIGN_TYPE_STRING, PEN_CTR) //
 				.addTripSort(0, //
@@ -417,14 +435,6 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 								STOP_0842, //
 								STOP_PEN_CNTR // 221 Glendale Av
 						})) //
-				.compileBothTripSort());
-		map2.put(216l, new RouteTripSpec(216l, //
-				0, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY, //
-				1, MTrip.HEADSIGN_TYPE_STRING, "") //
-				.addTripSort(0, //
-						Arrays.asList(new String[] { STOP_DTT, STOP_GRDG_GLMR, STOP_BRU })) //
-				.addTripSort(1, //
-						Arrays.asList(new String[] { /* no stops */})) //
 				.compileBothTripSort());
 		ALL_ROUTE_TRIPS2 = map2;
 	}
@@ -464,7 +474,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	@Override
 	public boolean mergeHeadsign(MTrip mTrip, MTrip mTripToMerge) {
 		List<String> headsignsValues = Arrays.asList(mTrip.getHeadsignValue(), mTripToMerge.getHeadsignValue());
-		if (mTrip.getRouteId() == 5l) {
+		if (mTrip.getRouteId() == 305l) {
 			if (Arrays.asList( //
 					FAIRVIEW_MALL, //
 					DOWNTOWN //
@@ -472,7 +482,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 101l) {
+		} else if (mTrip.getRouteId() == 401L) {
 			if (Arrays.asList( //
 					HOSP, //
 					DOWNTOWN //
@@ -480,21 +490,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 104L) {
-			if (Arrays.asList( //
-					"Pen Ctr On", //
-					PEN_CTR //
-					).containsAll(headsignsValues)) {
-				mTrip.setHeadsignString(PEN_CTR, mTrip.getHeadsignId());
-				return true;
-			} else if (Arrays.asList( //
-					"Downtown On De", //
-					DOWNTOWN //
-					).containsAll(headsignsValues)) {
-				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
-				return true;
-			}
-		} else if (mTrip.getRouteId() == 112l) {
+		} else if (mTrip.getRouteId() == 412L) {
 			if (Arrays.asList( //
 					FAIRVIEW_MALL, //
 					DOWNTOWN //
@@ -502,28 +498,9 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 115L) {
-			if (Arrays.asList( //
-					"Pen On D", //
-					PEN_CTR //
-					).containsAll(headsignsValues)) {
-				mTrip.setHeadsignString(PEN_CTR, mTrip.getHeadsignId());
-				return true;
-			}
-		} else if (mTrip.getRouteId() == 118L) {
-			if (Arrays.asList( //
-					"Pen Ctr On", //
-					PEN_CTR //
-					).containsAll(headsignsValues)) {
-				mTrip.setHeadsignString(PEN_CTR, mTrip.getHeadsignId());
-				return true;
-			} else if (Arrays.asList( //
-					"Downtown On D", //
-					DOWNTOWN //
-					).containsAll(headsignsValues)) {
-				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
-				return true;
-			}
+		}
+		if (isGoodEnoughAccepted()) {
+			return super.mergeHeadsign(mTrip, mTripToMerge);
 		}
 		System.out.printf("\nUnexptected trips to merge %s & %s!\n", mTrip, mTripToMerge);
 		System.exit(-1);
@@ -607,20 +584,25 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final Pattern DIGITS = Pattern.compile("[\\d]+");
 
 	private static final Pattern PRE_STOP_ID = Pattern.compile("(" //
-			+ "STC_[F|S|W][0-9]{4}_Stop|" //
-			+ "STC_[F|S|W][0-9]{4}Stop|" //
-			+ "STC_[F|S|W][0-9]{4}_|" //
-			+ "STC_[F|S|W][0-9]{4}|" //
+			+ "STC_[F|S|W][0-9]{2,4}_Stop|" //
+			+ "STC_[F|S|W][0-9]{2,4}Stop|" //
+			+ "STC_[F|S|W][0-9]{2,4}_|" //
+			+ "STC_[F|S|W][0-9]{2,4}|" //
 			+ "STC_[F|S|W]Stop|" //
 			+ "STC_[F|S|W]_Stop|" //
-			+ "STC_[F|S|W]_[0-9]{4}_Stop|" //
-			+ "STC_[F|S|W]_[0-9]{4}_|" //
+			//
+			+ "STC_[F|S|W]_[0-9]{2,4}_Stop|" //
+			+ "STC_[F|S|W]_[0-9]{2,4}_|" //
+			//
 			+ "STC_[F|S|W]_|" //
 			+ "STC_[F|S|W]|" //
+			//
 			+ "[F|S|W][0-9]{4}_Stop|" //
 			+ "[F|S|W][0-9]{4}_|" //
+			//
 			+ "ST_SStop|" //
 			+ "ST_S|" //
+			//
 			+ "Sto" //
 			+ ")", //
 			Pattern.CASE_INSENSITIVE);
@@ -798,269 +780,277 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 			return 100018;
 		} else if (stopCode.equals("MCS")) {
 			return 100019;
+		} else if (stopCode.equals("GDC")) {
+			return 100020;
+		} else if (stopCode.equals("WLC")) {
+			return 100021;
+		} else if (stopCode.equals("WAL")) {
+			return 100022;
+		} else if (stopCode.equals("RIC")) {
+			return 100023;
 		}
 		try {
 			Matcher matcher = DIGITS.matcher(stopCode);
 			if (matcher.find()) {
-				int routeId = Integer.parseInt(matcher.group());
+				int digits = Integer.parseInt(matcher.group());
 				if (stopCode.startsWith(CD)) {
-					routeId += 30000;
+					digits += 30000;
 				} else if (stopCode.startsWith(CRL)) {
-					routeId += 40000;
+					digits += 40000;
 				} else if (stopCode.startsWith(GLI)) {
-					routeId += 70000;
+					digits += 70000;
 				} else if (stopCode.startsWith(LKV)) {
-					routeId += 120000;
+					digits += 120000;
 				} else if (stopCode.startsWith(LLI)) {
-					routeId += 130000;
+					digits += 130000;
 				} else if (stopCode.startsWith(NOTL)) {
-					routeId += 140000;
+					digits += 140000;
 				} else if (stopCode.startsWith(PGL)) {
-					routeId += 160000;
+					digits += 160000;
 				} else if (stopCode.startsWith(SCWE)) {
-					routeId += 190000;
+					digits += 190000;
 				} else {
 					System.out.printf("\nUnexpected stop ID (starts with digits) %s", gStop);
 					System.exit(-1);
-					routeId = -1;
+					digits = -1;
 				}
-				return routeId;
+				return digits;
 			}
 		} catch (Exception e) {
 			System.out.printf("\nError while finding stop ID for %s", gStop);
 			e.printStackTrace();
 		}
-		int routeId;
+		int digits;
 		if (stopCode.startsWith(ALNBG)) {
-			routeId = 100000;
+			digits = 100000;
 		} else if (stopCode.startsWith(ARTH)) {
-			routeId = 110000;
+			digits = 110000;
 		} else if (stopCode.startsWith(BNTG)) {
-			routeId = 200000;
+			digits = 200000;
 		} else if (stopCode.startsWith(BRCK)) {
-			routeId = 210000;
+			digits = 210000;
 		} else if (stopCode.startsWith(CLRK)) {
-			routeId = 300000;
+			digits = 300000;
 		} else if (stopCode.startsWith(CMGS)) {
-			routeId = 310000;
+			digits = 310000;
 		} else if (stopCode.startsWith(CNFD)) {
-			routeId = 320000;
+			digits = 320000;
 		} else if (stopCode.startsWith(CRLT)) {
-			routeId = 330000;
+			digits = 330000;
 		} else if (stopCode.startsWith(CRMT)) {
-			routeId = 340000;
+			digits = 340000;
 		} else if (stopCode.startsWith(DNKL)) {
-			routeId = 400000;
+			digits = 400000;
 		} else if (stopCode.startsWith(DNTN)) {
-			routeId = 410000;
+			digits = 410000;
 		} else if (stopCode.startsWith(FARV)) {
-			routeId = 600000;
+			digits = 600000;
 		} else if (stopCode.startsWith(FRTH)) {
-			routeId = 610000;
+			digits = 610000;
 		} else if (stopCode.startsWith(GEN)) {
-			routeId = 700000;
+			digits = 700000;
 		} else if (stopCode.startsWith(GENV)) {
-			routeId = 710000;
+			digits = 710000;
 		} else if (stopCode.startsWith(GLND)) {
-			routeId = 720000;
+			digits = 720000;
 		} else if (stopCode.startsWith(GNDL)) {
-			routeId = 7300000;
+			digits = 7300000;
 		} else if (stopCode.startsWith(GRDG)) {
-			routeId = 740000;
+			digits = 740000;
 		} else if (stopCode.startsWith(GRNT)) {
-			routeId = 750000;
+			digits = 750000;
 		} else if (stopCode.startsWith(HAIG)) {
-			routeId = 800000;
+			digits = 800000;
 		} else if (stopCode.startsWith(HRTZ)) {
-			routeId = 810000;
+			digits = 810000;
 		} else if (stopCode.startsWith(KEFR)) {
-			routeId = 1100000;
+			digits = 1100000;
 		} else if (stopCode.startsWith(LAKE)) {
-			routeId = 1200000;
+			digits = 1200000;
 		} else if (stopCode.startsWith(LOCK)) {
-			routeId = 1210000;
+			digits = 1210000;
 		} else if (stopCode.startsWith(LSHR)) {
-			routeId = 1220000;
+			digits = 1220000;
 		} else if (stopCode.startsWith(MAC_T)) {
-			routeId = 1300000;
+			digits = 1300000;
 		} else if (stopCode.startsWith(MERT)) {
-			routeId = 1310000;
+			digits = 1310000;
 		} else if (stopCode.startsWith(MRDL)) {
-			routeId = 1320000;
+			digits = 1320000;
 		} else if (stopCode.startsWith(NIAG)) {
-			routeId = 1400000;
+			digits = 1400000;
 		} else if (stopCode.startsWith(NI_FLS)) {
-			routeId = 1410000;
+			digits = 1410000;
 		} else if (stopCode.startsWith(NW_GN)) {
-			routeId = 1420000;
+			digits = 1420000;
 		} else if (stopCode.startsWith(ONT) || gStop.getStopName().startsWith(ONTARIO_ST)) {
-			routeId = 1500000;
+			digits = 1500000;
 		} else if (stopCode.startsWith(ORMD)) {
-			routeId = 1510000;
+			digits = 1510000;
 		} else if (stopCode.startsWith(PELM)) {
-			routeId = 1600000;
+			digits = 1600000;
 		} else if (stopCode.startsWith(PEN)) {
-			routeId = 1610000;
+			digits = 1610000;
 		} else if (stopCode.startsWith(QRVW)) {
-			routeId = 1700000;
+			digits = 1700000;
 		} else if (stopCode.startsWith(RICH)) {
-			routeId = 1800000;
+			digits = 1800000;
 		} else if (stopCode.startsWith(RKWD)) {
-			routeId = 1810000;
+			digits = 1810000;
 		} else if (stopCode.startsWith(SCMN)) {
-			routeId = 1900000;
+			digits = 1900000;
 		} else if (stopCode.startsWith(SCOT)) {
-			routeId = 1910000;
+			digits = 1910000;
 		} else if (stopCode.startsWith(SRNG)) {
-			routeId = 1920000;
+			digits = 1920000;
 		} else if (stopCode.startsWith(ST_D)) {
-			routeId = 1930000;
+			digits = 1930000;
 		} else if (stopCode.startsWith(ST_P)) {
-			routeId = 1940000;
+			digits = 1940000;
 		} else if (stopCode.startsWith(ST_PW)) {
-			routeId = 1950000;
+			digits = 1950000;
 		} else if (stopCode.startsWith(SULV)) {
-			routeId = 1960000;
+			digits = 1960000;
 		} else if (stopCode.startsWith(TWNL)) {
-			routeId = 2000000;
+			digits = 2000000;
 		} else if (stopCode.startsWith(VINE)) {
-			routeId = 2200000;
+			digits = 2200000;
 		} else if (stopCode.startsWith(VSKL)) {
-			routeId = 2210000;
+			digits = 2210000;
 		} else if (stopCode.startsWith(WAL)) {
-			routeId = 2300000;
+			digits = 2300000;
 		} else if (stopCode.startsWith(WCTR)) {
-			routeId = 2310000;
+			digits = 2310000;
 		} else if (stopCode.startsWith(WEST)) {
-			routeId = 2320000;
+			digits = 2320000;
 		} else if (stopCode.startsWith(WLDW)) {
-			routeId = 2330000;
+			digits = 2330000;
 		} else if (stopCode.startsWith(WLND)) {
-			routeId = 2340000;
+			digits = 2340000;
 		} else {
 			System.out.printf("\nUnexpected stop ID (starts with) %s", gStop);
 			System.exit(-1);
-			routeId = -1;
+			digits = -1;
 		}
 		if (stopCode.endsWith(ABBY)) {
-			routeId += 100;
+			digits += 100;
 		} else if (stopCode.endsWith(ALL)) {
-			routeId += 101;
+			digits += 101;
 		} else if (stopCode.endsWith(ARTH)) {
-			routeId += 102;
+			digits += 102;
 		} else if (stopCode.endsWith(BCHN)) {
-			routeId += 200;
+			digits += 200;
 		} else if (stopCode.endsWith(BNTG)) {
-			routeId += 201;
+			digits += 201;
 		} else if (stopCode.endsWith(BRHL)) {
-			routeId += 202;
+			digits += 202;
 		} else if (stopCode.endsWith(CAMP)) {
-			routeId += 300;
+			digits += 300;
 		} else if (stopCode.endsWith(CHUR)) {
-			routeId += 301;
+			digits += 301;
 		} else if (stopCode.endsWith(CLR)) {
-			routeId += 302;
+			digits += 302;
 		} else if (stopCode.endsWith(CMPS)) {
-			routeId += 303;
+			digits += 303;
 		} else if (stopCode.endsWith(CNTR)) {
-			routeId += 304;
+			digits += 304;
 		} else if (stopCode.endsWith(COLL)) {
-			routeId += 305;
+			digits += 305;
 		} else if (stopCode.endsWith(COLR)) {
-			routeId += 306;
+			digits += 306;
 		} else if (stopCode.endsWith(CONF)) {
-			routeId += 307;
+			digits += 307;
 		} else if (stopCode.endsWith(CRLT)) {
-			routeId += 308;
+			digits += 308;
 		} else if (stopCode.endsWith(CUGA)) {
-			routeId += 309;
+			digits += 309;
 		} else if (stopCode.endsWith(ECHR)) {
-			routeId += 500;
+			digits += 500;
 		} else if (stopCode.endsWith(FACR)) {
-			routeId += 600;
+			digits += 600;
 		} else if (stopCode.endsWith(GENV)) {
-			routeId += 700;
+			digits += 700;
 		} else if (stopCode.endsWith(GLMR)) {
-			routeId += 701;
+			digits += 701;
 		} else if (stopCode.endsWith(GLNR)) {
-			routeId += 702;
+			digits += 702;
 		} else if (stopCode.endsWith(GNDL)) {
-			routeId += 703;
+			digits += 703;
 		} else if (stopCode.endsWith(GRNT)) {
-			routeId += 704;
+			digits += 704;
 		} else if (stopCode.endsWith(HOSP)) {
-			routeId += 800;
+			digits += 800;
 		} else if (stopCode.endsWith(HP)) {
-			routeId += 801;
+			digits += 801;
 		} else if (stopCode.endsWith(LAKE)) {
-			routeId += 1200;
+			digits += 1200;
 		} else if (stopCode.endsWith(LINW)) {
-			routeId += 1201;
+			digits += 1201;
 		} else if (stopCode.endsWith(LOUT)) {
-			routeId += 1203;
+			digits += 1203;
 		} else if (stopCode.endsWith(LNHVN)) {
-			routeId += 1204;
+			digits += 1204;
 		} else if (stopCode.endsWith(LYN)) {
-			routeId += 1205;
+			digits += 1205;
 		} else if (stopCode.endsWith(MAIN)) {
-			routeId += 1300;
+			digits += 1300;
 		} else if (stopCode.endsWith(MALL)) {
-			routeId += 1301;
+			digits += 1301;
 		} else if (stopCode.endsWith(MART)) {
-			routeId += 1302;
+			digits += 1302;
 		} else if (stopCode.endsWith(MC_TB)) {
-			routeId += 1303;
+			digits += 1303;
 		} else if (stopCode.endsWith(MERT)) {
-			routeId += 1304;
+			digits += 1304;
 		} else if (stopCode.endsWith(MRDL)) {
-			routeId += 1305;
+			digits += 1305;
 		} else if (stopCode.endsWith(MRTV)) {
-			routeId += 1306;
+			digits += 1306;
 		} else if (stopCode.endsWith(NIAG)) {
-			routeId += 1400;
+			digits += 1400;
 		} else if (stopCode.endsWith(OAKD)) {
-			routeId += 1500;
+			digits += 1500;
 		} else if (stopCode.endsWith(ONT)) {
-			routeId += 1501;
+			digits += 1501;
 		} else if (stopCode.endsWith(PARK)) {
-			routeId += 1600;
+			digits += 1600;
 		} else if (stopCode.endsWith(PELM)) {
-			routeId += 1601;
+			digits += 1601;
 		} else if (stopCode.endsWith(QUEN)) {
-			routeId += 1700;
+			digits += 1700;
 		} else if (stopCode.endsWith(QUNS)) {
-			routeId += 1701;
+			digits += 1701;
 		} else if (stopCode.endsWith(RES)) {
-			routeId += 1800;
+			digits += 1800;
 		} else if (stopCode.endsWith(RICH)) {
-			routeId += 1801;
+			digits += 1801;
 		} else if (stopCode.endsWith(ST_D)) {
-			routeId += 1900;
+			digits += 1900;
 		} else if (stopCode.endsWith(TERM)) {
-			routeId += 2000;
+			digits += 2000;
 		} else if (stopCode.endsWith(TOWP)) {
-			routeId += 2001;
+			digits += 2001;
 		} else if (stopCode.endsWith(TWNL)) {
-			routeId += 2002;
+			digits += 2002;
 		} else if (stopCode.endsWith(TUPP)) {
-			routeId += 2003;
+			digits += 2003;
 		} else if (stopCode.endsWith(UNIV)) {
-			routeId += 2100;
+			digits += 2100;
 		} else if (stopCode.endsWith(VINE)) {
-			routeId += 2200;
+			digits += 2200;
 		} else if (stopCode.endsWith(VSKL)) {
-			routeId += 2201;
+			digits += 2201;
 		} else if (stopCode.endsWith(WDRW)) {
-			routeId += 2300;
+			digits += 2300;
 		} else if (stopCode.endsWith(WLND)) {
-			routeId += 2301;
+			digits += 2301;
 		} else if (stopCode.endsWith(WMBL)) {
-			routeId += 2302;
+			digits += 2302;
 		} else {
 			System.out.printf("\nUnexpected stop ID (ends with) %s", gStop);
 			System.exit(-1);
-			routeId = -1;
+			digits = -1;
 		}
-		return routeId;
+		return digits;
 	}
 }
