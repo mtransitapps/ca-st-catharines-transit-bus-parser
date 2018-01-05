@@ -155,6 +155,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 			// @formatter:off
 			case 26: return "ED1B24";
 			case 27: return "ED1B24";
+			case 88: return null; // TODO ?
 			case 301: return COLOR_ED1B24;
 			case 302: return COLOR_00A650;
 			case 303: return COLOR_ED008C;
@@ -205,16 +206,14 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 			case 421: return "486F6E"; // GREEN-ISH
 			case 423: return "7570B3"; // LIGHT PURPLE // ?
 			case 424: return "0060AD"; // BLUE
-			case 425: return null; // ?
+			case 425: return null; // TODO ?
 			case 428: return "A3CE62"; // LIGHT GREEN
 			case 431: return "00A652"; // GREEN
+			case 432: return "ED008E"; // PINK
 			case 435: return "4FA491";
 			case 436: return "F58345"; // ORANGE
 			// @formatter:on
 			default:
-				if (isGoodEnoughAccepted()) {
-					return null;
-				}
 				System.out.printf("\nUnexpected route color for %s!\n", gRoute);
 				System.exit(-1);
 				return null;
@@ -227,12 +226,14 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String THOROLD = "Thorold";
 	private static final String THOROLD_SOUTH = THOROLD + " South";
 	private static final String PORT_ROBINSON = "Port Robinson";
-	private static final String BROCK_UNIVERSITY = "Brock"; // University
+	private static final String BROCK_UNIVERSITY_SHORT = "Brock"; // University
 	private static final String PEN_CTR = "Pen Ctr";
 	private static final String FAIRVIEW_MALL = "Fairview Mall";
 	private static final String WEST_ = "West";
 
-	private static final String STOP_ = "STC_F17_";
+	private static final String STOP_ = "STC_W18_";
+	private static final String STOP_0167 = STOP_ + "Stop0167";
+	private static final String STOP_0168 = STOP_ + "Stop0168";
 	private static final String STOP_0219 = STOP_ + "Stop0219";
 	private static final String STOP_0220 = STOP_ + "Stop0220";
 	private static final String STOP_0222 = STOP_ + "Stop0222";
@@ -241,6 +242,10 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String STOP_0237 = STOP_ + "Stop0237";
 	private static final String STOP_0238 = STOP_ + "Stop0238";
 	private static final String STOP_0778 = STOP_ + "Stop0778";
+	private static final String STOP_0781 = STOP_ + "Stop0781";
+	private static final String STOP_0784 = STOP_ + "Stop0784";
+	private static final String STOP_0794 = STOP_ + "Stop0794";
+	private static final String STOP_0797 = STOP_ + "Stop0797";
 	private static final String STOP_0831 = STOP_ + "Stop0831";
 	private static final String STOP_0839 = STOP_ + "Stop0839";
 	private static final String STOP_0842 = STOP_ + "Stop0842";
@@ -255,18 +260,18 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String STOP_2206 = STOP_ + "Stop2206";
 
 	private static final String STOP_BAS = STOP_ + "BAS";
-	private static final String STOP_BIS = STOP_ + "BIS";
 	private static final String STOP_BRU = STOP_ + "BRU";
 	private static final String STOP_RIC = STOP_ + "RIC";
 
 	private static final String STOP_ALNBG_LYN = STOP_ + "AlnbgLyn";
-	private static final String STOP_CRMT_TOWP = STOP_ + "CrmtTowp";
-	private static final String STOP_MAC_T_LOUT = STOP_ + "MacTLout";
+	private static final String STOP_CTO = STOP_ + "CTO";
+	private static final String STOP_GLND_GLNR = STOP_ + "GlndGlnr";
+	private static final String STOP_MCL = STOP_ + "MCL";
 	private static final String STOP_NI_FLS_ALL = STOP_ + "NiFlsAll";
 	private static final String STOP_ORMD_RICH = STOP_ + "OrmdRich";
 	private static final String STOP_PELM_GNDL = STOP_ + "PelmGndl";
-	private static final String STOP_PEN_CNTR = STOP_ + "Pen Cntr";
-	private static final String STOP_TWNL_QUEN = STOP_ + "TwnlQuen";
+	private static final String STOP_PEN = STOP_ + "PEN";
+	private static final String STOP_TLQ = STOP_ + "TLQ";
 	private static final String STOP_GNDL_BRHL = STOP_ + "GndlBrhl";
 	private static final String STOP_ST_D_CLR = STOP_ + "StDClr";
 
@@ -278,16 +283,16 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 				1, MTrip.HEADSIGN_TYPE_STRING, PEN_CTR) //
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
-						STOP_PEN_CNTR, //
-								STOP_ORMD_RICH, //
-								STOP_CRMT_TOWP, //
+						STOP_PEN, // Pen Centre
+								STOP_ORMD_RICH, // ++
+								STOP_CTO, // Thorold Towpath Terminal
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
-						STOP_CRMT_TOWP, //
-								STOP_TWNL_QUEN, //
-								STOP_0997, //
-								STOP_PEN_CNTR, //
+						STOP_CTO, // Thorold Towpath Terminal
+								STOP_TLQ, // Townline Rd & Queen St
+								STOP_0997, // ++
+								STOP_PEN, // Pen Centre
 						})) //
 				.compileBothTripSort());
 		map2.put(322l, new RouteTripSpec(322l, //
@@ -295,37 +300,47 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 				1, MTrip.HEADSIGN_TYPE_STRING, THOROLD_SOUTH) // TOWPATH
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
-						STOP_CRMT_TOWP, //
-								STOP_BAS, STOP_NI_FLS_ALL, //
-								STOP_2206, STOP_ALNBG_LYN, //
-								STOP_BIS, //
+						STOP_CTO, // Thorold Towpath Terminal
+								STOP_NI_FLS_ALL, // Niagara Falls Rd & Allanburg Rd
+								STOP_2206, // ++
+								STOP_ALNBG_LYN, // Allanburg Rd & Lynn Cr
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
-						STOP_BIS, STOP_ALNBG_LYN, //
-								STOP_NI_FLS_ALL, STOP_BAS, //
-								STOP_CRMT_TOWP, //
+						STOP_ALNBG_LYN, // Allanburg Rd & Lynn Cr
+								STOP_BAS, // ++
+								STOP_CTO, // Thorold Towpath Terminal
 						})) //
 				.compileBothTripSort());
 		map2.put(323L, new RouteTripSpec(23l, //
 				0, MTrip.HEADSIGN_TYPE_STRING, WEST_, //
-				1, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY) //
+				1, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY_SHORT) //
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
 						STOP_BRU, // Brock University
-								STOP_0839, //
-								STOP_MAC_T_LOUT //
+								STOP_0839, // !=
+								STOP_GLND_GLNR, // <>
+								STOP_0794, // !=
+								STOP_0797, // !=
+								STOP_PELM_GNDL, // <>
+								STOP_0168, // !=
+								STOP_MCL, // MacTurnbull Dr & Louth St
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
-						STOP_MAC_T_LOUT, //
-								STOP_0778, //
-								STOP_PELM_GNDL, //
+						STOP_MCL, // MacTurnbull Dr & Louth St
+								STOP_0778, // ++
+								STOP_0167, // !=
+								STOP_PELM_GNDL, // <>
+								STOP_0781, // !=
+								STOP_0784, // !=
+								STOP_GLND_GLNR, // <>
+								STOP_0831, // !=
 								STOP_BRU, // Brock University
 						})) //
 				.compileBothTripSort());
 		map2.put(324L, new RouteTripSpec(324L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY, //
+				0, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY_SHORT, //
 				1, MTrip.HEADSIGN_TYPE_STRING, "Tupper") //
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
@@ -341,19 +356,19 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 						})) //
 				.compileBothTripSort());
 		map2.put(336L, new RouteTripSpec(336L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY, //
+				0, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY_SHORT, //
 				1, MTrip.HEADSIGN_TYPE_STRING, PEN_CTR) //
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
-						STOP_PEN_CNTR, // 221 Glendale Av
-								STOP_0831, //
+						STOP_PEN, // Pen Centre
+								STOP_0831, // ++
 								STOP_BRU, // Brock University
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
 						STOP_BRU, // Brock University
 								STOP_0842, //
-								STOP_PEN_CNTR // 221 Glendale Av
+								STOP_PEN, // Pen Centre
 						})) //
 				.compileBothTripSort());
 		map2.put(420L, new RouteTripSpec(420L, //
@@ -361,7 +376,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 				1, MTrip.HEADSIGN_TYPE_STRING, PEN_CTR) //
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
-						STOP_PEN_CNTR, // == 221 Glendale Av
+						STOP_PEN, // Pen Centre
 								STOP_1336, // != Pen Centre & East Entrance
 								STOP_1316, // != Glengarry Rd & Glenhurst Cir
 								STOP_0222, // != Glendale Av & Burleigh Hill Dr
@@ -371,11 +386,11 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 								STOP_ST_D_CLR, // <> St Davids Rd & Collier Rd
 								STOP_0967, // != Collier Rd & Broderick Av
 								STOP_ORMD_RICH, // Ormond St S. & Richmond St
-								STOP_CRMT_TOWP // Clairmont St & Towpath St
+								STOP_CTO, // Thorold Towpath Terminal
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
-						STOP_CRMT_TOWP, // Clairmont St & Towpath St
+						STOP_CTO, // Thorold Towpath Terminal
 								STOP_1290, // != Townline Rd W & Queen St N
 								STOP_0997, // != St Davids Rd & Burleigh Hill
 								STOP_ST_D_CLR, // <> St Davids Rd & Collier Rd
@@ -385,27 +400,27 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 								STOP_0219, // != Glendale Av & Burleigh Hill Dr
 								STOP_1317, // != Glengarry Rd & Glendale Av
 								STOP_0220, // != Pen Centre East Entrance
-								STOP_PEN_CNTR // == 221 Glendale Av
+								STOP_PEN, // Pen Centre
 						})) //
 				.compileBothTripSort());
 		map2.put(423L, new RouteTripSpec(423L, //
 				0, MTrip.HEADSIGN_TYPE_STRING, WEST_, //
-				1, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY) //
+				1, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY_SHORT) //
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
 						STOP_BRU, // Brock University
 								STOP_0839, // ++
-								STOP_MAC_T_LOUT, // MacTurnbull Dr & Louth St
+								STOP_MCL, // MacTurnbull Dr & Louth St
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
-						STOP_MAC_T_LOUT, // , // MacTurnbull Dr & Louth St
+						STOP_MCL, // MacTurnbull Dr & Louth St
 								STOP_0778, // ++
 								STOP_BRU, // Brock University
 						})) //
 				.compileBothTripSort());
 		map2.put(424L, new RouteTripSpec(424L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY, //
+				0, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY_SHORT, //
 				1, MTrip.HEADSIGN_TYPE_STRING, "Tupper") //
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
@@ -421,11 +436,11 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 						})) //
 				.compileBothTripSort());
 		map2.put(436L, new RouteTripSpec(436L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY, //
+				0, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY_SHORT, //
 				1, MTrip.HEADSIGN_TYPE_STRING, PEN_CTR) //
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
-						STOP_PEN_CNTR, // 221 Glendale Av
+						STOP_PEN, // Pen Centre
 								STOP_0831, //
 								STOP_BRU, // Brock University
 						})) //
@@ -433,7 +448,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 						Arrays.asList(new String[] { //
 						STOP_BRU, // Brock University
 								STOP_0842, //
-								STOP_PEN_CNTR // 221 Glendale Av
+								STOP_PEN, // Pen Centre
 						})) //
 				.compileBothTripSort());
 		ALL_ROUTE_TRIPS2 = map2;
@@ -442,7 +457,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	@Override
 	public int compareEarly(long routeId, List<MTripStop> list1, List<MTripStop> list2, MTripStop ts1, MTripStop ts2, GStop ts1GStop, GStop ts2GStop) {
 		if (ALL_ROUTE_TRIPS2.containsKey(routeId)) {
-			return ALL_ROUTE_TRIPS2.get(routeId).compare(routeId, list1, list2, ts1, ts2, ts1GStop, ts2GStop);
+			return ALL_ROUTE_TRIPS2.get(routeId).compare(routeId, list1, list2, ts1, ts2, ts1GStop, ts2GStop, this);
 		}
 		return super.compareEarly(routeId, list1, list2, ts1, ts2, ts1GStop, ts2GStop);
 	}
@@ -458,7 +473,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	@Override
 	public Pair<Long[], Integer[]> splitTripStop(MRoute mRoute, GTrip gTrip, GTripStop gTripStop, ArrayList<MTrip> splitTrips, GSpec routeGTFS) {
 		if (ALL_ROUTE_TRIPS2.containsKey(mRoute.getId())) {
-			return SplitUtils.splitTripStop(mRoute, gTrip, gTripStop, routeGTFS, ALL_ROUTE_TRIPS2.get(mRoute.getId()));
+			return SplitUtils.splitTripStop(mRoute, gTrip, gTripStop, routeGTFS, ALL_ROUTE_TRIPS2.get(mRoute.getId()), this);
 		}
 		return super.splitTripStop(mRoute, gTrip, gTripStop, splitTrips, routeGTFS);
 	}
@@ -467,6 +482,17 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
 		if (ALL_ROUTE_TRIPS2.containsKey(mRoute.getId())) {
 			return; // split
+		}
+		if (isGoodEnoughAccepted()) {
+			if (mRoute.getId() == 88L) {
+				if (gTrip.getTripHeadsign().endsWith("AM")) {
+					mTrip.setHeadsignString("AM", gTrip.getDirectionId());
+					return;
+				} else if (gTrip.getTripHeadsign().endsWith("PM")) {
+					mTrip.setHeadsignString("PM", gTrip.getDirectionId());
+					return;
+				}
+			}
 		}
 		mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), gTrip.getDirectionId());
 	}
@@ -480,6 +506,14 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 					DOWNTOWN //
 					).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
+				return true;
+			}
+		} else if (mTrip.getRouteId() == 310L) {
+			if (Arrays.asList( //
+					"Sir Winston", //
+					PEN_CTR //
+					).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString(PEN_CTR, mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (mTrip.getRouteId() == 401L) {
@@ -498,23 +532,31 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
 				return true;
 			}
-		}
-		if (isGoodEnoughAccepted()) {
-			return super.mergeHeadsign(mTrip, mTripToMerge);
+		} else if (mTrip.getRouteId() == 432L) {
+			if (Arrays.asList( //
+					"Burleigh Hl", //
+					BROCK_UNIVERSITY_SHORT //
+					).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString(BROCK_UNIVERSITY_SHORT, mTrip.getHeadsignId());
+				return true;
+			}
 		}
 		System.out.printf("\nUnexptected trips to merge %s & %s!\n", mTrip, mTripToMerge);
 		System.exit(-1);
 		return false;
 	}
 
-	private static final Pattern STARTS_WITH_RSN_RLN = Pattern.compile("(^[0-9]{1,3} (([\\w]+[\\.]? )+\\- )*)", Pattern.CASE_INSENSITIVE);
+	private static final Pattern STARTS_WITH_RSN_RLN = Pattern.compile("(^[0-9]{1,3}[A-Z]? (([\\w]+[\\.]? )+\\- )*)", Pattern.CASE_INSENSITIVE);
 
 	private static final Pattern CENTR = Pattern.compile("((^|\\W){1}(cent[r]?)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
 	private static final String CENTR_REPLACEMENT = "$2Center$4";
 
+	private static final Pattern STARTS_WITH_TO = Pattern.compile("(^.* to )", Pattern.CASE_INSENSITIVE);
+
 	@Override
 	public String cleanTripHeadsign(String tripHeadsign) {
 		tripHeadsign = STARTS_WITH_RSN_RLN.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
+		tripHeadsign = STARTS_WITH_TO.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
 		tripHeadsign = CENTR.matcher(tripHeadsign).replaceAll(CENTR_REPLACEMENT);
 		tripHeadsign = CleanUtils.removePoints(tripHeadsign);
 		tripHeadsign = CleanUtils.cleanStreetTypes(tripHeadsign);
@@ -788,6 +830,32 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 			return 100022;
 		} else if (stopCode.equals("RIC")) {
 			return 100023;
+		} else if (stopCode.equals("HOS")) {
+			return 100024;
+		} else if (stopCode.equals("LKO")) {
+			return 100025;
+		} else if (stopCode.equals("LKV")) {
+			return 100026;
+		} else if (stopCode.equals("GBH")) {
+			return 100027;
+		} else if (stopCode.equals("LLI")) {
+			return 100028;
+		} else if (stopCode.equals("LKN")) {
+			return 100029;
+		} else if (stopCode.equals("GLI")) {
+			return 100030;
+		} else if (stopCode.equals("SIR")) {
+			return 100031;
+		} else if (stopCode.equals("OSD")) {
+			return 100032;
+		} else if (stopCode.equals("DCA")) {
+			return 100033;
+		} else if (stopCode.equals("TLQ")) {
+			return 100034;
+		} else if (stopCode.equals("CTO")) {
+			return 100035;
+		} else if (stopCode.equals("MCL")) {
+			return 100036;
 		}
 		try {
 			Matcher matcher = DIGITS.matcher(stopCode);
