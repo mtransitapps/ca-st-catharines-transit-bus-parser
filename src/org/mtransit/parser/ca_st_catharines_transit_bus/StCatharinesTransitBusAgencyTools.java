@@ -153,6 +153,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 			int rsn = Integer.parseInt(gRoute.getRouteShortName());
 			switch (rsn) {
 			// @formatter:off
+			case 21: return null; // TODO ?
 			case 26: return "ED1B24";
 			case 27: return "ED1B24";
 			case 88: return null; // TODO ?
@@ -231,7 +232,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String FAIRVIEW_MALL = "Fairview Mall";
 	private static final String WEST_ = "West";
 
-	private static final String STOP_ = "STC_W18_";
+	private static final String STOP_ = "STC_S18_";
 	private static final String STOP_0167 = STOP_ + "Stop0167";
 	private static final String STOP_0168 = STOP_ + "Stop0168";
 	private static final String STOP_0219 = STOP_ + "Stop0219";
@@ -258,26 +259,47 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String STOP_1317 = STOP_ + "Stop1317";
 	private static final String STOP_1336 = STOP_ + "Stop1336";
 	private static final String STOP_2206 = STOP_ + "Stop2206";
+	private static final String STOP_9002 = STOP_ + "Stop9002";
+	private static final String STOP_9005 = STOP_ + "Stop9005";
 
 	private static final String STOP_BAS = STOP_ + "BAS";
+	// private static final String STOP_BIS = STOP_ + "BIS";
 	private static final String STOP_BRU = STOP_ + "BRU";
+	private static final String STOP_CTO = STOP_ + "CTO";
+	private static final String STOP_MCL = STOP_ + "MCL";
+	private static final String STOP_NFT = STOP_ + "NFT";
+	private static final String STOP_PEN = STOP_ + "PEN";
 	private static final String STOP_RIC = STOP_ + "RIC";
+	private static final String STOP_TLQ = STOP_ + "TLQ";
+	private static final String STOP_WLC = STOP_ + "WLC";
 
 	private static final String STOP_ALNBG_LYN = STOP_ + "AlnbgLyn";
-	private static final String STOP_CTO = STOP_ + "CTO";
 	private static final String STOP_GLND_GLNR = STOP_ + "GlndGlnr";
-	private static final String STOP_MCL = STOP_ + "MCL";
 	private static final String STOP_NI_FLS_ALL = STOP_ + "NiFlsAll";
 	private static final String STOP_ORMD_RICH = STOP_ + "OrmdRich";
 	private static final String STOP_PELM_GNDL = STOP_ + "PelmGndl";
-	private static final String STOP_PEN = STOP_ + "PEN";
-	private static final String STOP_TLQ = STOP_ + "TLQ";
 	private static final String STOP_GNDL_BRHL = STOP_ + "GndlBrhl";
 	private static final String STOP_ST_D_CLR = STOP_ + "StDClr";
 
 	private static HashMap<Long, RouteTripSpec> ALL_ROUTE_TRIPS2;
 	static {
 		HashMap<Long, RouteTripSpec> map2 = new HashMap<Long, RouteTripSpec>();
+		map2.put(21L, new RouteTripSpec(21L, //
+				0, MTrip.HEADSIGN_TYPE_STRING, "Welland Campus", //
+				1, MTrip.HEADSIGN_TYPE_STRING, "Niagara Falls") //
+				.addTripSort(0, //
+						Arrays.asList(new String[] { //
+						STOP_NFT, // Morrison & Dorchester-Niagara Falls
+								STOP_9002, // ++
+								STOP_WLC, // Niagara College - Welland Campus
+						})) //
+				.addTripSort(1, //
+						Arrays.asList(new String[] { //
+						STOP_WLC, // Niagara College - Welland Campus
+								STOP_9005, // ++
+								STOP_NFT, // Morrison & Dorchester-Niagara Falls
+						})) //
+				.compileBothTripSort());
 		map2.put(320l, new RouteTripSpec(320l, //
 				0, MTrip.HEADSIGN_TYPE_STRING, THOROLD, //
 				1, MTrip.HEADSIGN_TYPE_STRING, PEN_CTR) //
@@ -597,20 +619,12 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 
 	private static final String STO = "Sto";
 	private static final String STC_F_STOP = "STC_F_Stop";
-	private static final String STC_F2015_STOP = "STC_F2015_Stop";
-	private static final String STC_F2015_STO = "STC_F2015_Sto";
 
 	@Override
 	public String getStopCode(GStop gStop) {
 		if (ZERO_0.equals(gStop.getStopCode())) {
 			if (gStop.getStopId().startsWith(STC_F_STOP)) {
 				return gStop.getStopId().substring(STC_F_STOP.length());
-			}
-			if (gStop.getStopId().startsWith(STC_F2015_STOP)) {
-				return gStop.getStopId().substring(STC_F2015_STOP.length());
-			}
-			if (gStop.getStopId().startsWith(STC_F2015_STO)) {
-				return gStop.getStopId().substring(STC_F2015_STO.length());
 			}
 			return null;
 		}
@@ -856,6 +870,20 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 			return 100035;
 		} else if (stopCode.equals("MCL")) {
 			return 100036;
+		} else if (stopCode.equals("LKL")) {
+			return 100037;
+		} else if (stopCode.equals("LKG")) {
+			return 100038;
+		} else if (stopCode.equals("PGL")) {
+			return 100039;
+		} else if (stopCode.equals("CRL")) {
+			return 100040;
+		} else if (stopCode.equals("WIA")) {
+			return 100041;
+		} else if (stopCode.equals("CVI")) {
+			return 100042;
+		} else if (stopCode.equals("KAB")) {
+			return 100043;
 		}
 		try {
 			Matcher matcher = DIGITS.matcher(stopCode);
@@ -885,7 +913,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 				return digits;
 			}
 		} catch (Exception e) {
-			System.out.printf("\nError while finding stop ID for %s", gStop);
+			System.out.printf("\nError while finding stop ID for %s!\n", gStop);
 			e.printStackTrace();
 		}
 		int digits;
@@ -996,7 +1024,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		} else if (stopCode.startsWith(WLND)) {
 			digits = 2340000;
 		} else {
-			System.out.printf("\nUnexpected stop ID (starts with) %s", gStop);
+			System.out.printf("\nUnexpected stop ID (starts with) %s!\n", gStop);
 			System.exit(-1);
 			digits = -1;
 		}
@@ -1115,7 +1143,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		} else if (stopCode.endsWith(WMBL)) {
 			digits += 2302;
 		} else {
-			System.out.printf("\nUnexpected stop ID (ends with) %s", gStop);
+			System.out.printf("\nUnexpected stop ID (ends with) %s!\n", gStop);
 			System.exit(-1);
 			digits = -1;
 		}
