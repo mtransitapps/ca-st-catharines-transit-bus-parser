@@ -195,6 +195,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 			case 333: return COLOR_166FC1;
 			case 335: return COLOR_4CA392;
 			case 336: return COLOR_E24E26;
+			case 337: return "F58345"; // FLAMENCO
 			case 401: return "EE1C25"; // RED
 			case 402: return "0072BB"; // BLUE
 			case 404: return "00ADEF"; // LIGHT BLUE
@@ -218,6 +219,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 			case 432: return "ED008E"; // PINK
 			case 435: return "4FA491";
 			case 436: return "F58345"; // ORANGE
+			case 437: return "F58345"; // FLAMENCO
 			// @formatter:on
 			default:
 				System.out.printf("\nUnexpected route color for %s!\n", gRoute);
@@ -237,45 +239,44 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String FAIRVIEW_MALL = "Fairview Mall";
 	private static final String WEST_ = "West";
 
-	private static final String STOP_ = "STC_S18_";
-	private static final String STOP_0167 = STOP_ + "Stop0167";
-	private static final String STOP_0168 = STOP_ + "Stop0168";
-	private static final String STOP_0219 = STOP_ + "Stop0219";
-	private static final String STOP_0220 = STOP_ + "Stop0220";
-	private static final String STOP_0222 = STOP_ + "Stop0222";
-	private static final String STOP_0223 = STOP_ + "Stop0223";
-	private static final String STOP_0224 = STOP_ + "Stop0224";
-	private static final String STOP_0237 = STOP_ + "Stop0237";
-	private static final String STOP_0238 = STOP_ + "Stop0238";
-	private static final String STOP_0778 = STOP_ + "Stop0778";
-	private static final String STOP_0781 = STOP_ + "Stop0781";
-	private static final String STOP_0784 = STOP_ + "Stop0784";
-	private static final String STOP_0794 = STOP_ + "Stop0794";
-	private static final String STOP_0797 = STOP_ + "Stop0797";
-	private static final String STOP_0831 = STOP_ + "Stop0831";
-	private static final String STOP_0839 = STOP_ + "Stop0839";
-	private static final String STOP_0842 = STOP_ + "Stop0842";
-	private static final String STOP_0967 = STOP_ + "Stop0967";
-	private static final String STOP_0997 = STOP_ + "Stop0997";
-	private static final String STOP_1030 = STOP_ + "Stop1030";
-	private static final String STOP_1294 = STOP_ + "Stop1294";
-	private static final String STOP_1290 = STOP_ + "Stop1290";
-	private static final String STOP_1316 = STOP_ + "Stop1316";
-	private static final String STOP_1317 = STOP_ + "Stop1317";
-	private static final String STOP_1336 = STOP_ + "Stop1336";
-	private static final String STOP_2206 = STOP_ + "Stop2206";
-	private static final String STOP_9002 = STOP_ + "Stop9002";
-	private static final String STOP_9005 = STOP_ + "Stop9005";
+	private static final String STOP_ = "";
+	private static final String AND_STOP = "";
+	private static final String STOP_0167 = STOP_ + AND_STOP + "0167";
+	private static final String STOP_0168 = STOP_ + AND_STOP + "0168";
+	private static final String STOP_0219 = STOP_ + AND_STOP + "0219";
+	private static final String STOP_0220 = STOP_ + AND_STOP + "0220";
+	private static final String STOP_0222 = STOP_ + AND_STOP + "0222";
+	private static final String STOP_0223 = STOP_ + AND_STOP + "0223";
+	private static final String STOP_0224 = STOP_ + AND_STOP + "0224";
+	private static final String STOP_0237 = STOP_ + AND_STOP + "0237";
+	private static final String STOP_0238 = STOP_ + AND_STOP + "0238";
+	private static final String STOP_0778 = STOP_ + AND_STOP + "0778";
+	private static final String STOP_0781 = STOP_ + AND_STOP + "0781";
+	private static final String STOP_0784 = STOP_ + AND_STOP + "0784";
+	private static final String STOP_0794 = STOP_ + AND_STOP + "0794";
+	private static final String STOP_0797 = STOP_ + AND_STOP + "0797";
+	private static final String STOP_0831 = STOP_ + AND_STOP + "0831";
+	private static final String STOP_0839 = STOP_ + AND_STOP + "0839";
+	private static final String STOP_0842 = STOP_ + AND_STOP + "0842";
+	private static final String STOP_0967 = STOP_ + AND_STOP + "0967";
+	private static final String STOP_0997 = STOP_ + AND_STOP + "0997";
+	private static final String STOP_1030 = STOP_ + AND_STOP + "1030";
+	private static final String STOP_1294 = STOP_ + AND_STOP + "1294";
+	private static final String STOP_1290 = STOP_ + AND_STOP + "1290";
+	private static final String STOP_1316 = STOP_ + AND_STOP + "1316";
+	private static final String STOP_1317 = STOP_ + AND_STOP + "1317";
+	private static final String STOP_1336 = STOP_ + AND_STOP + "1336";
+	private static final String STOP_2206 = STOP_ + AND_STOP + "2206";
+	private static final String STOP_9002 = STOP_ + AND_STOP + "9002";
+	private static final String STOP_9005 = STOP_ + AND_STOP + "9005";
 
 	private static final String STOP_BAS = STOP_ + "BAS";
-	// private static final String STOP_BIS = STOP_ + "BIS";
 	private static final String STOP_BRU = STOP_ + "BRU";
 	private static final String STOP_CTO = STOP_ + "CTO";
 	private static final String STOP_MCL = STOP_ + "MCL";
 	private static final String STOP_NFT = STOP_ + "NFT";
 	private static final String STOP_PEN = STOP_ + "PEN";
 	private static final String STOP_RIC = STOP_ + "RIC";
-	private static final String STOP_TLQ = STOP_ + "TLQ";
 	private static final String STOP_WLC = STOP_ + "WLC";
 
 	private static final String STOP_ALNBG_LYN = STOP_ + "AlnbgLyn";
@@ -305,21 +306,21 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 								STOP_NFT, // Morrison & Dorchester-Niagara Falls
 						})) //
 				.compileBothTripSort());
-		map2.put(320l, new RouteTripSpec(320l, //
+		map2.put(320L, new RouteTripSpec(320L, //
 				0, MTrip.HEADSIGN_TYPE_STRING, THOROLD, //
 				1, MTrip.HEADSIGN_TYPE_STRING, PEN_CTR) //
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
-						STOP_PEN, // Pen Centre
-								STOP_ORMD_RICH, // ++
-								STOP_CTO, // Thorold Towpath Terminal
+						"PEN", // Pen Centre
+								"OrmdRich", // ++
+								"CTO", // Thorold Towpath Terminal
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
-						STOP_CTO, // Thorold Towpath Terminal
-								STOP_TLQ, // Townline Rd & Queen St
-								STOP_0997, // ++
-								STOP_PEN, // Pen Centre
+						"CTO", // Thorold Towpath Terminal
+								"TLQ", // Townline Rd & Queen St
+								"0997", // ++
+								"PEN", // Pen Centre
 						})) //
 				.compileBothTripSort());
 		map2.put(322l, new RouteTripSpec(322l, //
@@ -479,6 +480,14 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 						})) //
 				.compileBothTripSort());
 		ALL_ROUTE_TRIPS2 = map2;
+	}
+
+	public static final Pattern STARTS_WITH_STC_A00_ = Pattern.compile("((^){1}(stc\\_[A-Z]{1}[\\d]{2}(\\_)?(stop)?))", Pattern.CASE_INSENSITIVE);
+
+	@Override
+	public String cleanStopOriginalId(String gStopId) {
+		gStopId = STARTS_WITH_STC_A00_.matcher(gStopId).replaceAll(StringUtils.EMPTY);
+		return gStopId;
 	}
 
 	@Override
@@ -646,6 +655,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 
 	private static final Pattern PRE_STOP_ID = Pattern.compile("(" //
 			+ "STC_[F|S|W][0-9]{2,4}_Stop|" //
+			+ "STC_[F|S|W][0-9]{2,4}[A-Z]{3}Stop|" //
 			+ "STC_[F|S|W][0-9]{2,4}Stop|" //
 			+ "STC_[F|S|W][0-9]{2,4}_|" //
 			+ "STC_[F|S|W][0-9]{2,4}|" //
@@ -889,6 +899,18 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 			return 100042;
 		} else if (stopCode.equals("KAB")) {
 			return 100043;
+		} else if (stopCode.equals("OUT")) {
+			return 100_044;
+		} else if (stopCode.equals("ERM")) {
+			return 100_045;
+		} else if (stopCode.equals("WEN")) {
+			return 100_046;
+		} else if (stopCode.equals("WEC")) {
+			return 100_047;
+		} else if (stopCode.equals("PAP")) {
+			return 100_048;
+		} else if (stopCode.equals("SIP")) {
+			return 100_049;
 		}
 		try {
 			Matcher matcher = DIGITS.matcher(stopCode);
