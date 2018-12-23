@@ -319,6 +319,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 						Arrays.asList(new String[] { //
 						"CTO", // Thorold Towpath Terminal
 								"TLQ", // Townline Rd & Queen St
+								"1290", // Townline Rd W & Queen St N
 								"0997", // ++
 								"PEN", // Pen Centre
 						})) //
@@ -482,7 +483,8 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		ALL_ROUTE_TRIPS2 = map2;
 	}
 
-	public static final Pattern STARTS_WITH_STC_A00_ = Pattern.compile("((^){1}(stc\\_[A-Z]{1}[\\d]{2}(\\_)?(stop)?))", Pattern.CASE_INSENSITIVE);
+	public static final Pattern STARTS_WITH_STC_A00_ = Pattern.compile("((^){1}(stc\\_[A-Z]{1}[\\d]{2}(\\_)?([A-Z]{3}(stop))?(stop)?))",
+			Pattern.CASE_INSENSITIVE);
 
 	@Override
 	public String cleanStopOriginalId(String gStopId) {
@@ -631,52 +633,23 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 
 	private static final String ZERO_0 = "0";
 
-	private static final String STO = "Sto";
-	private static final String STC_F_STOP = "STC_F_Stop";
-
 	@Override
 	public String getStopCode(GStop gStop) {
-		if (ZERO_0.equals(gStop.getStopCode())) {
-			if (gStop.getStopId().startsWith(STC_F_STOP)) {
-				return gStop.getStopId().substring(STC_F_STOP.length());
-			}
+		String stopCode = gStop.getStopCode();
+		if (stopCode == null || stopCode.length() == 0 || ZERO_0.equals(stopCode)) {
+			stopCode = gStop.getStopId();
+		}
+		stopCode = STARTS_WITH_STC_A00_.matcher(stopCode).replaceAll(StringUtils.EMPTY);
+		if (StringUtils.isEmpty(stopCode)) {
+			System.out.printf("\nUnexptected stop code for %s!\n", gStop);
+			System.exit(-1);
 			return null;
 		}
-		if (gStop.getStopCode().startsWith(STO)) {
-			return gStop.getStopCode().substring(STO.length());
-		}
-		if (!Utils.isDigitsOnly(gStop.getStopCode())) {
-			return null;
-		}
-		return super.getStopCode(gStop);
+		return stopCode; // used by REAL-TIME API
 	}
 
 	private static final Pattern DIGITS = Pattern.compile("[\\d]+");
 
-	private static final Pattern PRE_STOP_ID = Pattern.compile("(" //
-			+ "STC_[F|S|W][0-9]{2,4}_Stop|" //
-			+ "STC_[F|S|W][0-9]{2,4}[A-Z]{3}Stop|" //
-			+ "STC_[F|S|W][0-9]{2,4}Stop|" //
-			+ "STC_[F|S|W][0-9]{2,4}_|" //
-			+ "STC_[F|S|W][0-9]{2,4}|" //
-			+ "STC_[F|S|W]Stop|" //
-			+ "STC_[F|S|W]_Stop|" //
-			//
-			+ "STC_[F|S|W]_[0-9]{2,4}_Stop|" //
-			+ "STC_[F|S|W]_[0-9]{2,4}_|" //
-			//
-			+ "STC_[F|S|W]_|" //
-			+ "STC_[F|S|W]|" //
-			//
-			+ "[F|S|W][0-9]{4}_Stop|" //
-			+ "[F|S|W][0-9]{4}_|" //
-			//
-			+ "ST_SStop|" //
-			+ "ST_S|" //
-			//
-			+ "Sto" //
-			+ ")", //
-			Pattern.CASE_INSENSITIVE);
 
 	private static final Pattern IGNORE_STOP_ID = Pattern.compile("(^(S_FE|NF|PC|WE))", Pattern.CASE_INSENSITIVE);
 
@@ -807,7 +780,12 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		if (stopCode == null || stopCode.length() == 0 || ZERO_0.equals(stopCode)) {
 			stopCode = gStop.getStopId();
 		}
-		stopCode = PRE_STOP_ID.matcher(stopCode).replaceAll(StringUtils.EMPTY);
+		stopCode = STARTS_WITH_STC_A00_.matcher(stopCode).replaceAll(StringUtils.EMPTY);
+		if (stopCode.isEmpty()) {
+			System.out.printf("\nUnexpected stop ID '%s' (%s)!\n", stopCode, gStop);
+			System.exit(-1);
+			return -1;
+		}
 		if (Utils.isDigitsOnly(stopCode)) {
 			return Integer.parseInt(stopCode); // using stop code as stop ID
 		}
@@ -933,15 +911,16 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 				} else if (stopCode.startsWith(SCWE)) {
 					digits += 190000;
 				} else {
-					System.out.printf("\nUnexpected stop ID (starts with digits) %s", gStop);
+					System.out.printf("\nUnexpected stop ID (starts with digits) '%s' (%s)!\n", stopCode, gStop);
 					System.exit(-1);
-					digits = -1;
+					return -1;
 				}
 				return digits;
 			}
 		} catch (Exception e) {
-			System.out.printf("\nError while finding stop ID for %s!\n", gStop);
+			System.out.printf("\nError while finding stop ID for '%s' (%s)!\n", stopCode, gStop);
 			e.printStackTrace();
+			System.exit(-1);
 		}
 		int digits;
 		if (stopCode.startsWith(ALNBG)) {
@@ -1051,9 +1030,9 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		} else if (stopCode.startsWith(WLND)) {
 			digits = 2340000;
 		} else {
-			System.out.printf("\nUnexpected stop ID (starts with) %s!\n", gStop);
+			System.out.printf("\nUnexpected stop ID (starts with) '%s' (%s)!\n", stopCode, gStop);
 			System.exit(-1);
-			digits = -1;
+			return -1;
 		}
 		if (stopCode.endsWith(ABBY)) {
 			digits += 100;
@@ -1170,9 +1149,9 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		} else if (stopCode.endsWith(WMBL)) {
 			digits += 2302;
 		} else {
-			System.out.printf("\nUnexpected stop ID (ends with) %s!\n", gStop);
+			System.out.printf("\nUnexpected stop ID (ends with) '%s' (%s)!\n", stopCode, gStop);
 			System.exit(-1);
-			digits = -1;
+			return -1;
 		}
 		return digits;
 	}
