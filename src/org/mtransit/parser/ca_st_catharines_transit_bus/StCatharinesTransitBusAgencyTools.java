@@ -48,9 +48,18 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	public void start(String[] args) {
 		System.out.printf("\nGenerating St Catharines Transit bus data...");
 		long start = System.currentTimeMillis();
+		boolean isNext = "next_".equalsIgnoreCase(args[2]);
+		if (isNext) {
+			setupNext();
+		}
 		this.serviceIds = extractUsefulServiceIds(args, this, true);
 		super.start(args);
 		System.out.printf("\nGenerating St Catharines Transit bus data... DONE in %s.\n", Utils.getPrettyDuration(System.currentTimeMillis() - start));
+	}
+
+	private void setupNext() {
+		ALL_ROUTE_TRIPS2.remove(324L);
+		ALL_ROUTE_TRIPS2.remove(424L);
 	}
 
 	@Override
@@ -231,18 +240,17 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	private static final String DOWNTOWN = "Downtown";
+	private static final String DOWNTOWN_TERMINAL = DOWNTOWN + " Terminal";
 	private static final String THOROLD = "Thorold";
 	private static final String THOROLD_SOUTH = THOROLD + " South";
 	private static final String PORT_ROBINSON = "Port Robinson";
+	private static final String BROCK_UNIVERSITY = "Brock University"; //
 	private static final String BROCK_UNIVERSITY_SHORT = "Brock"; // University
 	private static final String PEN_CTR = "Pen Ctr";
 	private static final String FAIRVIEW_MALL = "Fairview Mall";
-	private static final String WEST_ = "West";
 
 	private static final String STOP_ = "";
 	private static final String AND_STOP = "";
-	private static final String STOP_0167 = STOP_ + AND_STOP + "0167";
-	private static final String STOP_0168 = STOP_ + AND_STOP + "0168";
 	private static final String STOP_0219 = STOP_ + AND_STOP + "0219";
 	private static final String STOP_0220 = STOP_ + AND_STOP + "0220";
 	private static final String STOP_0222 = STOP_ + AND_STOP + "0222";
@@ -250,13 +258,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String STOP_0224 = STOP_ + AND_STOP + "0224";
 	private static final String STOP_0237 = STOP_ + AND_STOP + "0237";
 	private static final String STOP_0238 = STOP_ + AND_STOP + "0238";
-	private static final String STOP_0778 = STOP_ + AND_STOP + "0778";
-	private static final String STOP_0781 = STOP_ + AND_STOP + "0781";
-	private static final String STOP_0784 = STOP_ + AND_STOP + "0784";
-	private static final String STOP_0794 = STOP_ + AND_STOP + "0794";
-	private static final String STOP_0797 = STOP_ + AND_STOP + "0797";
 	private static final String STOP_0831 = STOP_ + AND_STOP + "0831";
-	private static final String STOP_0839 = STOP_ + AND_STOP + "0839";
 	private static final String STOP_0842 = STOP_ + AND_STOP + "0842";
 	private static final String STOP_0967 = STOP_ + AND_STOP + "0967";
 	private static final String STOP_0997 = STOP_ + AND_STOP + "0997";
@@ -273,17 +275,14 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String STOP_BAS = STOP_ + "BAS";
 	private static final String STOP_BRU = STOP_ + "BRU";
 	private static final String STOP_CTO = STOP_ + "CTO";
-	private static final String STOP_MCL = STOP_ + "MCL";
 	private static final String STOP_NFT = STOP_ + "NFT";
 	private static final String STOP_PEN = STOP_ + "PEN";
 	private static final String STOP_RIC = STOP_ + "RIC";
 	private static final String STOP_WLC = STOP_ + "WLC";
 
 	private static final String STOP_ALNBG_LYN = STOP_ + "AlnbgLyn";
-	private static final String STOP_GLND_GLNR = STOP_ + "GlndGlnr";
 	private static final String STOP_NI_FLS_ALL = STOP_ + "NiFlsAll";
 	private static final String STOP_ORMD_RICH = STOP_ + "OrmdRich";
-	private static final String STOP_PELM_GNDL = STOP_ + "PelmGndl";
 	private static final String STOP_GNDL_BRHL = STOP_ + "GndlBrhl";
 	private static final String STOP_ST_D_CLR = STOP_ + "StDClr";
 
@@ -339,33 +338,6 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 						STOP_ALNBG_LYN, // Allanburg Rd & Lynn Cr
 								STOP_BAS, // ++
 								STOP_CTO, // Thorold Towpath Terminal
-						})) //
-				.compileBothTripSort());
-		map2.put(323L, new RouteTripSpec(23l, //
-				0, MTrip.HEADSIGN_TYPE_STRING, WEST_, //
-				1, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY_SHORT) //
-				.addTripSort(0, //
-						Arrays.asList(new String[] { //
-						STOP_BRU, // Brock University
-								STOP_0839, // !=
-								STOP_GLND_GLNR, // <>
-								STOP_0794, // !=
-								STOP_0797, // !=
-								STOP_PELM_GNDL, // <>
-								STOP_0168, // !=
-								STOP_MCL, // MacTurnbull Dr & Louth St
-						})) //
-				.addTripSort(1, //
-						Arrays.asList(new String[] { //
-						STOP_MCL, // MacTurnbull Dr & Louth St
-								STOP_0778, // ++
-								STOP_0167, // !=
-								STOP_PELM_GNDL, // <>
-								STOP_0781, // !=
-								STOP_0784, // !=
-								STOP_GLND_GLNR, // <>
-								STOP_0831, // !=
-								STOP_BRU, // Brock University
 						})) //
 				.compileBothTripSort());
 		map2.put(324L, new RouteTripSpec(324L, //
@@ -432,22 +404,6 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 								STOP_PEN, // Pen Centre
 						})) //
 				.compileBothTripSort());
-		map2.put(423L, new RouteTripSpec(423L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, WEST_, //
-				1, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY_SHORT) //
-				.addTripSort(0, //
-						Arrays.asList(new String[] { //
-						STOP_BRU, // Brock University
-								STOP_0839, // ++
-								STOP_MCL, // MacTurnbull Dr & Louth St
-						})) //
-				.addTripSort(1, //
-						Arrays.asList(new String[] { //
-						STOP_MCL, // MacTurnbull Dr & Louth St
-								STOP_0778, // ++
-								STOP_BRU, // Brock University
-						})) //
-				.compileBothTripSort());
 		map2.put(424L, new RouteTripSpec(424L, //
 				0, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY_SHORT, //
 				1, MTrip.HEADSIGN_TYPE_STRING, "Tupper") //
@@ -483,7 +439,8 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		ALL_ROUTE_TRIPS2 = map2;
 	}
 
-	public static final Pattern STARTS_WITH_STC_A00_ = Pattern.compile("((^){1}(stc\\_[A-Z]{1}[\\d]{2}(\\_)?([A-Z]{3}(stop))?(stop)?))",
+	public static final Pattern STARTS_WITH_STC_A00_ = Pattern.compile( //
+			"((^){1}(stc\\_[A-Z]{1}[\\d]{2}(\\_)?([A-Z]{3}(stop))?(stop)?))", //
 			Pattern.CASE_INSENSITIVE);
 
 	@Override
@@ -538,12 +495,19 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	@Override
 	public boolean mergeHeadsign(MTrip mTrip, MTrip mTripToMerge) {
 		List<String> headsignsValues = Arrays.asList(mTrip.getHeadsignValue(), mTripToMerge.getHeadsignValue());
-		if (mTrip.getRouteId() == 305l) {
+		if (mTrip.getRouteId() == 305L) {
 			if (Arrays.asList( //
 					FAIRVIEW_MALL, //
 					DOWNTOWN //
 					).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
+				return true;
+			}
+			if (Arrays.asList( //
+					FAIRVIEW_MALL, //
+					DOWNTOWN_TERMINAL //
+					).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString(DOWNTOWN_TERMINAL, mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (mTrip.getRouteId() == 310L) {
@@ -562,6 +526,13 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
 				return true;
 			}
+			if (Arrays.asList( //
+					"Niagara Health System - St Cath", //
+					DOWNTOWN_TERMINAL //
+					).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString(DOWNTOWN_TERMINAL, mTrip.getHeadsignId());
+				return true;
+			}
 		} else if (mTrip.getRouteId() == 412L) {
 			if (Arrays.asList( //
 					FAIRVIEW_MALL, //
@@ -570,12 +541,26 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
 				return true;
 			}
+			if (Arrays.asList( //
+					FAIRVIEW_MALL, //
+					DOWNTOWN_TERMINAL //
+					).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString(DOWNTOWN_TERMINAL, mTrip.getHeadsignId());
+				return true;
+			}
 		} else if (mTrip.getRouteId() == 432L) {
 			if (Arrays.asList( //
 					"Burleigh Hl", //
 					BROCK_UNIVERSITY_SHORT //
 					).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(BROCK_UNIVERSITY_SHORT, mTrip.getHeadsignId());
+				return true;
+			}
+			if (Arrays.asList( //
+					"St Davids Rd & Burleigh Hl", //
+					BROCK_UNIVERSITY //
+					).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString(BROCK_UNIVERSITY, mTrip.getHeadsignId());
 				return true;
 			}
 		}
@@ -589,12 +574,10 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final Pattern CENTR = Pattern.compile("((^|\\W){1}(cent[r]?)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
 	private static final String CENTR_REPLACEMENT = "$2Center$4";
 
-	private static final Pattern STARTS_WITH_TO = Pattern.compile("(^.* to )", Pattern.CASE_INSENSITIVE);
-
 	@Override
 	public String cleanTripHeadsign(String tripHeadsign) {
 		tripHeadsign = STARTS_WITH_RSN_RLN.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
-		tripHeadsign = STARTS_WITH_TO.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
+		tripHeadsign = CleanUtils.keepTo(tripHeadsign);
 		tripHeadsign = CENTR.matcher(tripHeadsign).replaceAll(CENTR_REPLACEMENT);
 		tripHeadsign = CleanUtils.removePoints(tripHeadsign);
 		tripHeadsign = CleanUtils.cleanStreetTypes(tripHeadsign);
@@ -649,7 +632,6 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	private static final Pattern DIGITS = Pattern.compile("[\\d]+");
-
 
 	private static final Pattern IGNORE_STOP_ID = Pattern.compile("(^(S_FE|NF|PC|WE))", Pattern.CASE_INSENSITIVE);
 
@@ -803,8 +785,8 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 			return 100005;
 		} else if (stopCode.equals(BRU)) {
 			return 100006;
-		} else if (stopCode.equals(DAS)) {
-			return 100007;
+		} else if (stopCode.equals(DAS) || stopCode.equals(DAS + "0174")) {
+			return 0174;
 		} else if (stopCode.equals(FVM)) {
 			return 100008;
 		} else if (stopCode.equals(GLW)) {
@@ -855,14 +837,14 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 			return 100031;
 		} else if (stopCode.equals("OSD")) {
 			return 100032;
-		} else if (stopCode.equals("DCA")) {
-			return 100033;
+		} else if (stopCode.equals("DCA") || stopCode.equals("DCA0724")) {
+			return 0724;
 		} else if (stopCode.equals("TLQ")) {
 			return 100034;
 		} else if (stopCode.equals("CTO")) {
 			return 100035;
-		} else if (stopCode.equals("MCL")) {
-			return 100036;
+		} else if (stopCode.equals("MCL") || stopCode.equals("MCL0767")) {
+			return 0767;
 		} else if (stopCode.equals("LKL")) {
 			return 100037;
 		} else if (stopCode.equals("LKG")) {
@@ -871,8 +853,8 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 			return 100039;
 		} else if (stopCode.equals("CRL")) {
 			return 100040;
-		} else if (stopCode.equals("WIA")) {
-			return 100041;
+		} else if (stopCode.equals("WIA") || stopCode.equals("WIA0421")) {
+			return 0421;
 		} else if (stopCode.equals("CVI")) {
 			return 100042;
 		} else if (stopCode.equals("KAB")) {
@@ -887,8 +869,12 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 			return 100_047;
 		} else if (stopCode.equals("PAP")) {
 			return 100_048;
-		} else if (stopCode.equals("SIP")) {
-			return 100_049;
+		} else if (stopCode.equals("SIP") || stopCode.equals("SIP1372")) {
+			return 1372;
+		} else if (stopCode.equals("CKE") || stopCode.equals("CKE1072")) {
+			return 1072;
+		} else if (stopCode.equals("GOT") || stopCode.equals("GOT1399")) {
+			return 1399;
 		}
 		try {
 			Matcher matcher = DIGITS.matcher(stopCode);
