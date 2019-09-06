@@ -58,8 +58,6 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	private void setupNext() {
-		ALL_ROUTE_TRIPS2.remove(324L);
-		ALL_ROUTE_TRIPS2.remove(424L);
 	}
 
 	@Override
@@ -262,8 +260,6 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String STOP_0842 = STOP_ + AND_STOP + "0842";
 	private static final String STOP_0967 = STOP_ + AND_STOP + "0967";
 	private static final String STOP_0997 = STOP_ + AND_STOP + "0997";
-	private static final String STOP_1030 = STOP_ + AND_STOP + "1030";
-	private static final String STOP_1294 = STOP_ + AND_STOP + "1294";
 	private static final String STOP_1290 = STOP_ + AND_STOP + "1290";
 	private static final String STOP_1316 = STOP_ + AND_STOP + "1316";
 	private static final String STOP_1317 = STOP_ + AND_STOP + "1317";
@@ -277,7 +273,6 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String STOP_CTO = STOP_ + "CTO";
 	private static final String STOP_NFT = STOP_ + "NFT";
 	private static final String STOP_PEN = STOP_ + "PEN";
-	private static final String STOP_RIC = STOP_ + "RIC";
 	private static final String STOP_WLC = STOP_ + "WLC";
 
 	private static final String STOP_ALNBG_LYN = STOP_ + "AlnbgLyn";
@@ -340,22 +335,6 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 								STOP_CTO, // Thorold Towpath Terminal
 						})) //
 				.compileBothTripSort());
-		map2.put(324L, new RouteTripSpec(324L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY_SHORT, //
-				1, MTrip.HEADSIGN_TYPE_STRING, "Tupper") //
-				.addTripSort(0, //
-						Arrays.asList(new String[] { //
-						STOP_BRU, // Brock University
-								STOP_1030, // ++
-								STOP_RIC, // Richmond St & Confederation Av
-						})) //
-				.addTripSort(1, //
-						Arrays.asList(new String[] { //
-						STOP_RIC, // Richmond St & Confederation Av
-								STOP_1294, // ++
-								STOP_BRU, // Brock University
-						})) //
-				.compileBothTripSort());
 		map2.put(336L, new RouteTripSpec(336L, //
 				0, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY_SHORT, //
 				1, MTrip.HEADSIGN_TYPE_STRING, PEN_CTR) //
@@ -402,22 +381,6 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 								STOP_1317, // != Glengarry Rd & Glendale Av
 								STOP_0220, // != Pen Centre East Entrance
 								STOP_PEN, // Pen Centre
-						})) //
-				.compileBothTripSort());
-		map2.put(424L, new RouteTripSpec(424L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY_SHORT, //
-				1, MTrip.HEADSIGN_TYPE_STRING, "Tupper") //
-				.addTripSort(0, //
-						Arrays.asList(new String[] { //
-						STOP_BRU, // Brock University
-								STOP_1030, // ++
-								STOP_RIC, // Richmond St & Confederation Av
-						})) //
-				.addTripSort(1, //
-						Arrays.asList(new String[] { //
-						STOP_RIC, // Richmond St & Confederation Av
-								STOP_1294, // ++
-								STOP_BRU, // Brock University
 						})) //
 				.compileBothTripSort());
 		map2.put(436L, new RouteTripSpec(436L, //
