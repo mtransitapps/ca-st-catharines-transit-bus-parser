@@ -383,7 +383,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	private static final Pattern STARTS_WITH_STC_A00_ = Pattern.compile( //
-			"((^)(stc_[A-Z][\\d]{2}(_)?([A-Z]{3}(stop))?(stop)?))", //
+			"((^)(stc_[A-Z]{1,3}[\\d]{2}(_)?([A-Z]{3}(stop))?(stop)?))", //
 			Pattern.CASE_INSENSITIVE);
 
 	@Override
