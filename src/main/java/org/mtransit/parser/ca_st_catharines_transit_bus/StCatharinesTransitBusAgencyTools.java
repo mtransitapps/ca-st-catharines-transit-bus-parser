@@ -59,6 +59,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	private void setupNext() {
+		// DO NOTHING
 	}
 
 	@Override
@@ -94,11 +95,21 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public boolean excludeRoute(GRoute gRoute) {
-		if (!gRoute.getAgencyId().contains(ST_CATHARINES_TRANSIT_COMMISSION)) {
-			return true;
+		if (!gRoute.getAgencyId().contains(ST_CATHARINES_TRANSIT_COMMISSION)
+			&& !gRoute.getAgencyId().contains("AllNRT_")) {
+			return true; // exclude
+		}
+		if (gRoute.getAgencyId().contains("AllNRT_")) {
+			if (!Utils.isDigitsOnly(gRoute.getRouteShortName())) {
+				return true; // exclude
+			}
+			final int rsn = Integer.parseInt(gRoute.getRouteShortName());
+			if (rsn < 300 || rsn > 499) {
+				return true; // exclude
+			}
 		}
 		if (gRoute.getRouteLongName().startsWith("IMT - ")) {
-			return true; // Niagara Region Transit
+			return true; // exclude // Niagara Region Transit
 		}
 		return super.excludeRoute(gRoute);
 	}
@@ -209,8 +220,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 			case 437: return "F58345"; // FLAMENCO
 			// @formatter:on
 			default:
-				MTLog.logFatal("Unexpected route color for %s!", gRoute);
-				return null;
+				throw new MTLog.Fatal("Unexpected route color for %s!", gRoute);
 			}
 		}
 		return super.getRouteColor(gRoute);
@@ -268,13 +278,13 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 				0, MTrip.HEADSIGN_TYPE_STRING, "Welland Campus", //
 				1, MTrip.HEADSIGN_TYPE_STRING, "Niagara Falls") //
 				.addTripSort(0, //
-						Arrays.asList(//
+						Arrays.asList( //
 								STOP_NFT, // Morrison & Dorchester-Niagara Falls
 								STOP_9002, // ++
 								STOP_WLC // Niagara College - Welland Campus
 						)) //
 				.addTripSort(1, //
-						Arrays.asList(//
+						Arrays.asList( //
 								STOP_WLC, // Niagara College - Welland Campus
 								STOP_9005, // ++
 								STOP_NFT // Morrison & Dorchester-Niagara Falls
@@ -284,59 +294,54 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 				0, MTrip.HEADSIGN_TYPE_STRING, THOROLD, //
 				1, MTrip.HEADSIGN_TYPE_STRING, PEN_CTR) //
 				.addTripSort(0, //
-						Arrays.asList(//
-								"PEN", // Pen Centre
-								"OrmdRich", // ++
-								"CTO" // Thorold Towpath Terminal
+						Arrays.asList( //
+								"2660", // "PEN", // Pen Centre
+								"2620" // CTO" // Thorold Towpath Terminal
 						)) //
 				.addTripSort(1, //
-						Arrays.asList(//
-								"CTO", // Thorold Towpath Terminal
-								"TLQ", // Townline Rd & Queen St
-								"1290", // Townline Rd W & Queen St N
-								"0997", // ++
-								"PEN" // Pen Centre
+						Arrays.asList( //
+								"2620", // "CTO", // Thorold Towpath Terminal
+								"860", // "1290", // Townline Rd W & Queen St N
+								"2660" // "PEN" // Pen Centre
 						)) //
 				.compileBothTripSort());
 		map2.put(322L, new RouteTripSpec(322L, //
 				0, MTrip.HEADSIGN_TYPE_STRING, PORT_ROBINSON, // LYNN_CR
 				1, MTrip.HEADSIGN_TYPE_STRING, THOROLD_SOUTH) // TOWPATH
 				.addTripSort(0, //
-						Arrays.asList(//
-								STOP_CTO, // Thorold Towpath Terminal
-								STOP_NI_FLS_ALL, // Niagara Falls Rd & Allanburg Rd
-								STOP_2206, // ++
-								STOP_ALNBG_LYN // Allanburg Rd & Lynn Cr
+						Arrays.asList( //
+								"2620", // STOP_CTO, // Thorold Towpath Terminal
+								"988", // "2204", // CLARA ST + TAYLOR ST
+								"993" // "2209", // ALLANBURG RD + HODGKINS AVE
 						)) //
 				.addTripSort(1, //
-						Arrays.asList(//
-								STOP_ALNBG_LYN, // Allanburg Rd & Lynn Cr
-								STOP_BAS, // ++
-								STOP_CTO // Thorold Towpath Terminal
+						Arrays.asList( //
+								"1527", // "2221", // ALLANBURG RD + FIREHALL
+								"2620" // STOP_CTO // Thorold Towpath Terminal
 						)) //
 				.compileBothTripSort());
 		map2.put(336L, new RouteTripSpec(336L, //
 				0, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY_SHORT, //
 				1, MTrip.HEADSIGN_TYPE_STRING, PEN_CTR) //
 				.addTripSort(0, //
-						Arrays.asList(//
-								STOP_PEN, // Pen Centre
-								STOP_0831, // ++
-								STOP_BRU // Brock University
+						Arrays.asList( //
+								"2660", // STOP_PEN, // Pen Centre
+								// STOP_0831, // ++
+								"2612" // STOP_BRU // Brock University
 						)) //
 				.addTripSort(1, //
-						Arrays.asList(//
-								STOP_BRU, // Brock University
-								STOP_0842, //
-								STOP_PEN // Pen Centre
+						Arrays.asList( //
+								"2612", // STOP_BRU, // Brock University
+								// STOP_0842, //
+								"2660" // STOP_PEN // Pen Centre
 						)) //
 				.compileBothTripSort());
 		map2.put(420L, new RouteTripSpec(420L, //
 				0, MTrip.HEADSIGN_TYPE_STRING, THOROLD, //
 				1, MTrip.HEADSIGN_TYPE_STRING, PEN_CTR) //
 				.addTripSort(0, //
-						Arrays.asList(//
-								STOP_PEN, // Pen Centre
+						Arrays.asList( //
+								"2660", // STOP_PEN, // Pen Centre
 								STOP_1336, // != Pen Centre & East Entrance
 								STOP_1316, // != Glengarry Rd & Glenhurst Cir
 								STOP_0222, // != Glendale Av & Burleigh Hill Dr
@@ -346,11 +351,11 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 								STOP_ST_D_CLR, // <> St Davids Rd & Collier Rd
 								STOP_0967, // != Collier Rd & Broderick Av
 								STOP_ORMD_RICH, // Ormond St S. & Richmond St
-								STOP_CTO // Thorold Towpath Terminal
+								"2620" // STOP_CTO // Thorold Towpath Terminal
 						)) //
 				.addTripSort(1, //
-						Arrays.asList(//
-								STOP_CTO, // Thorold Towpath Terminal
+						Arrays.asList( //
+								"2620", // STOP_CTO, // Thorold Towpath Terminal
 								STOP_1290, // != Townline Rd W & Queen St N
 								STOP_0997, // != St Davids Rd & Burleigh Hill
 								STOP_ST_D_CLR, // <> St Davids Rd & Collier Rd
@@ -360,20 +365,20 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 								STOP_0219, // != Glendale Av & Burleigh Hill Dr
 								STOP_1317, // != Glengarry Rd & Glendale Av
 								STOP_0220, // != Pen Centre East Entrance
-								STOP_PEN // Pen Centre
+								"2660" // STOP_PEN // Pen Centre
 						)) //
 				.compileBothTripSort());
 		map2.put(436L, new RouteTripSpec(436L, //
 				0, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY_SHORT, //
 				1, MTrip.HEADSIGN_TYPE_STRING, PEN_CTR) //
 				.addTripSort(0, //
-						Arrays.asList(//
+						Arrays.asList( //
 								STOP_PEN, // Pen Centre
 								STOP_0831, //
 								STOP_BRU // Brock University
 						)) //
 				.addTripSort(1, //
-						Arrays.asList(//
+						Arrays.asList( //
 								STOP_BRU, // Brock University
 								STOP_0842, //
 								STOP_PEN // Pen Centre
@@ -383,7 +388,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	private static final Pattern STARTS_WITH_STC_A00_ = Pattern.compile( //
-			"((^)(stc_[A-Z]{1,3}[\\d]{2}(_)?([A-Z]{3}(stop))?(stop)?))", //
+			"((^)((allnrt|stc)\\_[a-z]{1,3}[\\d]{2,4}(_)?([A-Z]{3}(stop))?(stop)?))", //
 			Pattern.CASE_INSENSITIVE);
 
 	@Override
@@ -507,18 +512,23 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 				return true;
 			}
 		}
-		MTLog.logFatal("Unexptected trips to merge %s & %s!", mTrip, mTripToMerge);
-		return false;
+		throw new MTLog.Fatal("Unexptected trips to merge %s & %s!", mTrip, mTripToMerge);
 	}
 
 	private static final Pattern STARTS_WITH_RSN_RLN = Pattern.compile("(^[0-9]{1,3}[A-Z]? (([\\w]+[.]? )+- )*)", Pattern.CASE_INSENSITIVE);
+
+	private static final Pattern STARTS_WITH_RLN_DASH = Pattern.compile("(^([^\\-]+\\- )+)", Pattern.CASE_INSENSITIVE);
 
 	private static final Pattern CENTR = CleanUtils.cleanWords("cent[r]?");
 	private static final String CENTR_REPLACEMENT = CleanUtils.cleanWordsReplacement("Center");
 
 	@Override
 	public String cleanTripHeadsign(String tripHeadsign) {
+		if (Utils.isUppercaseOnly(tripHeadsign, true, true)) {
+			tripHeadsign = tripHeadsign.toLowerCase(Locale.ENGLISH);
+		}
 		tripHeadsign = STARTS_WITH_RSN_RLN.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
+		tripHeadsign = STARTS_WITH_RLN_DASH.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
 		tripHeadsign = CleanUtils.keepTo(tripHeadsign);
 		tripHeadsign = CENTR.matcher(tripHeadsign).replaceAll(CENTR_REPLACEMENT);
 		tripHeadsign = CleanUtils.removePoints(tripHeadsign);
@@ -563,8 +573,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		}
 		stopCode = STARTS_WITH_STC_A00_.matcher(stopCode).replaceAll(StringUtils.EMPTY);
 		if (StringUtils.isEmpty(stopCode)) {
-			MTLog.logFatal("Unexpected stop code for %s!", gStop);
-			return null;
+			throw new MTLog.Fatal("Unexpected stop code for %s!", gStop);
 		}
 		if (Utils.isDigitsOnly(stopCode)) {
 			stopCode = Integer.valueOf(stopCode).toString(); // remove leading 0s
@@ -705,8 +714,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		}
 		stopCode = STARTS_WITH_STC_A00_.matcher(stopCode).replaceAll(StringUtils.EMPTY);
 		if (stopCode.isEmpty()) {
-			MTLog.logFatal("Unexpected stop ID '%s' (%s)!", stopCode, gStop);
-			return -1;
+			throw new MTLog.Fatal("Unexpected stop ID '%s' (%s)!", stopCode, gStop);
 		}
 		if (Utils.isDigitsOnly(stopCode)) {
 			return Integer.parseInt(stopCode); // using stop code as stop ID
@@ -838,14 +846,12 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 				} else if (stopCode.startsWith(SCWE)) {
 					digits += 190000;
 				} else {
-					MTLog.logFatal("Unexpected stop ID (starts with digits) '%s' (%s)!", stopCode, gStop);
-					return -1;
+					throw new MTLog.Fatal("Unexpected stop ID (starts with digits) '%s' (%s)!", stopCode, gStop);
 				}
 				return digits;
 			}
 		} catch (Exception e) {
-			MTLog.logFatal(e, "Error while finding stop ID for '%s' (%s)!", stopCode, gStop);
-			return -1;
+			throw new MTLog.Fatal(e, "Error while finding stop ID for '%s' (%s)!", stopCode, gStop);
 		}
 		int digits;
 		if (stopCode.startsWith(ALNBG)) {
@@ -955,8 +961,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		} else if (stopCode.startsWith(WLND)) {
 			digits = 2340000;
 		} else {
-			MTLog.logFatal("Unexpected stop ID (starts with) '%s' (%s)!", stopCode, gStop);
-			return -1;
+			throw new MTLog.Fatal("Unexpected stop ID (starts with) '%s' (%s)!", stopCode, gStop);
 		}
 		if (stopCode.endsWith(ABBY)) {
 			digits += 100;
@@ -1073,8 +1078,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		} else if (stopCode.endsWith(WMBL)) {
 			digits += 2302;
 		} else {
-			MTLog.logFatal("Unexpected stop ID (ends with) '%s' (%s)!", stopCode, gStop);
-			return -1;
+			throw new MTLog.Fatal("Unexpected stop ID (ends with) '%s' (%s)!", stopCode, gStop);
 		}
 		return digits;
 	}
