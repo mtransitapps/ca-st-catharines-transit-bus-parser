@@ -5,9 +5,6 @@ import org.jetbrains.annotations.Nullable;
 import org.mtransit.parser.CleanUtils;
 import org.mtransit.parser.DefaultAgencyTools;
 import org.mtransit.parser.MTLog;
-import org.mtransit.parser.Pair;
-import org.mtransit.parser.SplitUtils;
-import org.mtransit.parser.SplitUtils.RouteTripSpec;
 import org.mtransit.parser.StringUtils;
 import org.mtransit.parser.Utils;
 import org.mtransit.parser.gtfs.data.GCalendar;
@@ -16,17 +13,11 @@ import org.mtransit.parser.gtfs.data.GRoute;
 import org.mtransit.parser.gtfs.data.GSpec;
 import org.mtransit.parser.gtfs.data.GStop;
 import org.mtransit.parser.gtfs.data.GTrip;
-import org.mtransit.parser.gtfs.data.GTripStop;
 import org.mtransit.parser.mt.data.MAgency;
 import org.mtransit.parser.mt.data.MRoute;
 import org.mtransit.parser.mt.data.MTrip;
-import org.mtransit.parser.mt.data.MTripStop;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -229,168 +220,6 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		return super.getRouteColor(gRoute);
 	}
 
-	private static final String DOWNTOWN = "Downtown";
-	private static final String DOWNTOWN_TERMINAL = DOWNTOWN + " Terminal";
-	private static final String THOROLD = "Thorold";
-	private static final String THOROLD_SOUTH = THOROLD + " South";
-	private static final String PORT_ROBINSON = "Port Robinson";
-	private static final String BROCK_UNIVERSITY = "Brock University"; //
-	private static final String BROCK_UNIVERSITY_SHORT = "Brock"; // University
-	private static final String PEN_CTR = "Pen Ctr";
-	private static final String FAIRVIEW_MALL = "Fairview Mall";
-
-	private static final String STOP_ = "";
-	private static final String AND_STOP = "";
-	private static final String STOP_0219 = STOP_ + AND_STOP + "0219";
-	private static final String STOP_0220 = STOP_ + AND_STOP + "0220";
-	private static final String STOP_0222 = STOP_ + AND_STOP + "0222";
-	private static final String STOP_0223 = STOP_ + AND_STOP + "0223";
-	private static final String STOP_0224 = STOP_ + AND_STOP + "0224";
-	private static final String STOP_0237 = STOP_ + AND_STOP + "0237";
-	private static final String STOP_0238 = STOP_ + AND_STOP + "0238";
-	private static final String STOP_0831 = STOP_ + AND_STOP + "0831";
-	private static final String STOP_0842 = STOP_ + AND_STOP + "0842";
-	private static final String STOP_0967 = STOP_ + AND_STOP + "0967";
-	private static final String STOP_0997 = STOP_ + AND_STOP + "0997";
-	private static final String STOP_1290 = STOP_ + AND_STOP + "1290";
-	private static final String STOP_1316 = STOP_ + AND_STOP + "1316";
-	private static final String STOP_1317 = STOP_ + AND_STOP + "1317";
-	private static final String STOP_1336 = STOP_ + AND_STOP + "1336";
-	private static final String STOP_9002 = STOP_ + AND_STOP + "9002";
-	private static final String STOP_9005 = STOP_ + AND_STOP + "9005";
-
-	private static final String STOP_BRU = STOP_ + "BRU";
-	private static final String STOP_NFT = STOP_ + "NFT";
-	private static final String STOP_PEN = STOP_ + "PEN";
-	private static final String STOP_WLC = STOP_ + "WLC";
-
-	private static final String STOP_ORMD_RICH = STOP_ + "OrmdRich";
-	private static final String STOP_GNDL_BRHL = STOP_ + "GndlBrhl";
-	private static final String STOP_ST_D_CLR = STOP_ + "StDClr";
-
-	private static final HashMap<Long, RouteTripSpec> ALL_ROUTE_TRIPS2;
-
-	static {
-		HashMap<Long, RouteTripSpec> map2 = new HashMap<>();
-		//noinspection deprecation
-		map2.put(21L, new RouteTripSpec(21L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, "Welland Campus", //
-				1, MTrip.HEADSIGN_TYPE_STRING, "Niagara Falls") //
-				.addTripSort(0, //
-						Arrays.asList( //
-								STOP_NFT, // Morrison & Dorchester-Niagara Falls
-								STOP_9002, // ++
-								STOP_WLC // Niagara College - Welland Campus
-						)) //
-				.addTripSort(1, //
-						Arrays.asList( //
-								STOP_WLC, // Niagara College - Welland Campus
-								STOP_9005, // ++
-								STOP_NFT // Morrison & Dorchester-Niagara Falls
-						)) //
-				.compileBothTripSort());
-		//noinspection deprecation
-		map2.put(320L, new RouteTripSpec(320L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, THOROLD, //
-				1, MTrip.HEADSIGN_TYPE_STRING, PEN_CTR) //
-				.addTripSort(0, //
-						Arrays.asList( //
-								"2660", // "PEN", // Pen Centre
-								"2620" // CTO" // Thorold Towpath Terminal
-						)) //
-				.addTripSort(1, //
-						Arrays.asList( //
-								"2620", // "CTO", // Thorold Towpath Terminal
-								"860", // "1290", // Townline Rd W & Queen St N
-								"2660" // "PEN" // Pen Centre
-						)) //
-				.compileBothTripSort());
-		//noinspection deprecation
-		map2.put(322L, new RouteTripSpec(322L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, PORT_ROBINSON, // LYNN_CR
-				1, MTrip.HEADSIGN_TYPE_STRING, THOROLD_SOUTH) // TOWPATH
-				.addTripSort(0, //
-						Arrays.asList( //
-								"2620", // STOP_CTO, // Thorold Towpath Terminal
-								"988", // "2204", // CLARA ST + TAYLOR ST
-								"993" // "2209", // ALLANBURG RD + HODGKINS AVE
-						)) //
-				.addTripSort(1, //
-						Arrays.asList( //
-								"1527", // "2221", // ALLANBURG RD + FIREHALL
-								"2620" // STOP_CTO // Thorold Towpath Terminal
-						)) //
-				.compileBothTripSort());
-		//noinspection deprecation
-		map2.put(336L, new RouteTripSpec(336L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY_SHORT, //
-				1, MTrip.HEADSIGN_TYPE_STRING, PEN_CTR) //
-				.addTripSort(0, //
-						Arrays.asList( //
-								"2660", // STOP_PEN, // Pen Centre
-								// STOP_0831, // ++
-								"2612" // STOP_BRU // Brock University
-						)) //
-				.addTripSort(1, //
-						Arrays.asList( //
-								"2612", // STOP_BRU, // Brock University
-								// STOP_0842, //
-								"2660" // STOP_PEN // Pen Centre
-						)) //
-				.compileBothTripSort());
-		//noinspection deprecation
-		map2.put(420L, new RouteTripSpec(420L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, THOROLD, //
-				1, MTrip.HEADSIGN_TYPE_STRING, PEN_CTR) //
-				.addTripSort(0, //
-						Arrays.asList( //
-								"2660", // STOP_PEN, // Pen Centre
-								STOP_1336, // != Pen Centre & East Entrance
-								STOP_1316, // != Glengarry Rd & Glenhurst Cir
-								STOP_0222, // != Glendale Av & Burleigh Hill Dr
-								STOP_GNDL_BRHL, // == <> Glendale Av & Burleigh Hill Dr
-								STOP_0223, // != 0,Burleigh Hill Dr & Warkdale Dr
-								STOP_0224, // != Burleigh Hill Dr & Dalecrest Av
-								STOP_ST_D_CLR, // <> St Davids Rd & Collier Rd
-								STOP_0967, // != Collier Rd & Broderick Av
-								STOP_ORMD_RICH, // Ormond St S. & Richmond St
-								"2620" // STOP_CTO // Thorold Towpath Terminal
-						)) //
-				.addTripSort(1, //
-						Arrays.asList( //
-								"2620", // STOP_CTO, // Thorold Towpath Terminal
-								STOP_1290, // != Townline Rd W & Queen St N
-								STOP_0997, // != St Davids Rd & Burleigh Hill
-								STOP_ST_D_CLR, // <> St Davids Rd & Collier Rd
-								STOP_0237, // != Burleigh Hill Dr & Dalecrest Av
-								STOP_0238, // != Burleigh Hill School
-								STOP_GNDL_BRHL, // == <> Glendale Av & Burleigh Hill Dr
-								STOP_0219, // != Glendale Av & Burleigh Hill Dr
-								STOP_1317, // != Glengarry Rd & Glendale Av
-								STOP_0220, // != Pen Centre East Entrance
-								"2660" // STOP_PEN // Pen Centre
-						)) //
-				.compileBothTripSort());
-		//noinspection deprecation
-		map2.put(436L, new RouteTripSpec(436L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, BROCK_UNIVERSITY_SHORT, //
-				1, MTrip.HEADSIGN_TYPE_STRING, PEN_CTR) //
-				.addTripSort(0, //
-						Arrays.asList( //
-								STOP_PEN, // Pen Centre
-								STOP_0831, //
-								STOP_BRU // Brock University
-						)) //
-				.addTripSort(1, //
-						Arrays.asList( //
-								STOP_BRU, // Brock University
-								STOP_0842, //
-								STOP_PEN // Pen Centre
-						)) //
-				.compileBothTripSort());
-		ALL_ROUTE_TRIPS2 = map2;
-	}
-
 	private static final Pattern STARTS_WITH_STC_A00_ = Pattern.compile( //
 			"((^)((allnrt|stc)_[a-z]{1,3}[\\d]{2,4}(_)?([A-Z]{3}(stop))?(stop)?))", //
 			Pattern.CASE_INSENSITIVE);
@@ -403,47 +232,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	@Override
-	public int compareEarly(long routeId, @NotNull List<MTripStop> list1, @NotNull List<MTripStop> list2, @NotNull MTripStop ts1, @NotNull MTripStop ts2, @NotNull GStop ts1GStop, @NotNull GStop ts2GStop) {
-		if (ALL_ROUTE_TRIPS2.containsKey(routeId)) {
-			return ALL_ROUTE_TRIPS2.get(routeId).compare(routeId, list1, list2, ts1, ts2, ts1GStop, ts2GStop, this);
-		}
-		return super.compareEarly(routeId, list1, list2, ts1, ts2, ts1GStop, ts2GStop);
-	}
-
-	@NotNull
-	@Override
-	public ArrayList<MTrip> splitTrip(@NotNull MRoute mRoute, @Nullable GTrip gTrip, @NotNull GSpec gtfs) {
-		if (ALL_ROUTE_TRIPS2.containsKey(mRoute.getId())) {
-			return ALL_ROUTE_TRIPS2.get(mRoute.getId()).getAllTrips();
-		}
-		return super.splitTrip(mRoute, gTrip, gtfs);
-	}
-
-	@NotNull
-	@Override
-	public Pair<Long[], Integer[]> splitTripStop(@NotNull MRoute mRoute, @NotNull GTrip gTrip, @NotNull GTripStop gTripStop, @NotNull ArrayList<MTrip> splitTrips, @NotNull GSpec routeGTFS) {
-		if (ALL_ROUTE_TRIPS2.containsKey(mRoute.getId())) {
-			return SplitUtils.splitTripStop(mRoute, gTrip, gTripStop, routeGTFS, ALL_ROUTE_TRIPS2.get(mRoute.getId()), this);
-		}
-		return super.splitTripStop(mRoute, gTrip, gTripStop, splitTrips, routeGTFS);
-	}
-
-	@Override
 	public void setTripHeadsign(@NotNull MRoute mRoute, @NotNull MTrip mTrip, @NotNull GTrip gTrip, @NotNull GSpec gtfs) {
-		if (ALL_ROUTE_TRIPS2.containsKey(mRoute.getId())) {
-			return; // split
-		}
-		if (isGoodEnoughAccepted()) {
-			if (mRoute.getId() == 88L) {
-				if (gTrip.getTripHeadsignOrDefault().endsWith("AM")) {
-					mTrip.setHeadsignString("AM", gTrip.getDirectionIdOrDefault());
-					return;
-				} else if (gTrip.getTripHeadsignOrDefault().endsWith("PM")) {
-					mTrip.setHeadsignString("PM", gTrip.getDirectionIdOrDefault());
-					return;
-				}
-			}
-		}
 		mTrip.setHeadsignString(
 				cleanTripHeadsign(gTrip.getTripHeadsignOrDefault()),
 				gTrip.getDirectionIdOrDefault()
@@ -451,77 +240,12 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	@Override
+	public boolean directionFinderEnabled() {
+		return true;
+	}
+
+	@Override
 	public boolean mergeHeadsign(@NotNull MTrip mTrip, @NotNull MTrip mTripToMerge) {
-		List<String> headsignsValues = Arrays.asList(mTrip.getHeadsignValue(), mTripToMerge.getHeadsignValue());
-		if (mTrip.getRouteId() == 305L) {
-			if (Arrays.asList( //
-					FAIRVIEW_MALL, //
-					DOWNTOWN //
-			).containsAll(headsignsValues)) {
-				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
-				return true;
-			}
-			if (Arrays.asList( //
-					FAIRVIEW_MALL, //
-					DOWNTOWN_TERMINAL //
-			).containsAll(headsignsValues)) {
-				mTrip.setHeadsignString(DOWNTOWN_TERMINAL, mTrip.getHeadsignId());
-				return true;
-			}
-		} else if (mTrip.getRouteId() == 310L) {
-			if (Arrays.asList( //
-					"Sir Winston", //
-					PEN_CTR //
-			).containsAll(headsignsValues)) {
-				mTrip.setHeadsignString(PEN_CTR, mTrip.getHeadsignId());
-				return true;
-			}
-		} else if (mTrip.getRouteId() == 401L) {
-			if (Arrays.asList( //
-					HOSP, //
-					DOWNTOWN //
-			).containsAll(headsignsValues)) {
-				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
-				return true;
-			}
-			if (Arrays.asList( //
-					"Niagara Health System - St Cath", //
-					DOWNTOWN_TERMINAL //
-			).containsAll(headsignsValues)) {
-				mTrip.setHeadsignString(DOWNTOWN_TERMINAL, mTrip.getHeadsignId());
-				return true;
-			}
-		} else if (mTrip.getRouteId() == 412L) {
-			if (Arrays.asList( //
-					FAIRVIEW_MALL, //
-					DOWNTOWN //
-			).containsAll(headsignsValues)) {
-				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
-				return true;
-			}
-			if (Arrays.asList( //
-					FAIRVIEW_MALL, //
-					DOWNTOWN_TERMINAL //
-			).containsAll(headsignsValues)) {
-				mTrip.setHeadsignString(DOWNTOWN_TERMINAL, mTrip.getHeadsignId());
-				return true;
-			}
-		} else if (mTrip.getRouteId() == 432L) {
-			if (Arrays.asList( //
-					"Burleigh Hl", //
-					BROCK_UNIVERSITY_SHORT //
-			).containsAll(headsignsValues)) {
-				mTrip.setHeadsignString(BROCK_UNIVERSITY_SHORT, mTrip.getHeadsignId());
-				return true;
-			}
-			if (Arrays.asList( //
-					"St Davids Rd & Burleigh Hl", //
-					BROCK_UNIVERSITY //
-			).containsAll(headsignsValues)) {
-				mTrip.setHeadsignString(BROCK_UNIVERSITY, mTrip.getHeadsignId());
-				return true;
-			}
-		}
 		throw new MTLog.Fatal("Unexpected trips to merge %s & %s!", mTrip, mTripToMerge);
 	}
 
