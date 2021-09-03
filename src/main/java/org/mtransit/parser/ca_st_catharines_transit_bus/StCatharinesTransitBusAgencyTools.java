@@ -1,82 +1,40 @@
 package org.mtransit.parser.ca_st_catharines_transit_bus;
 
+import static org.mtransit.parser.StringUtils.EMPTY;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.mtransit.parser.CleanUtils;
+import org.mtransit.commons.CharUtils;
+import org.mtransit.commons.CleanUtils;
+import org.mtransit.commons.StringUtils;
 import org.mtransit.parser.DefaultAgencyTools;
 import org.mtransit.parser.MTLog;
-import org.mtransit.parser.StringUtils;
-import org.mtransit.parser.Utils;
-import org.mtransit.parser.gtfs.data.GCalendar;
-import org.mtransit.parser.gtfs.data.GCalendarDate;
 import org.mtransit.parser.gtfs.data.GRoute;
-import org.mtransit.parser.gtfs.data.GSpec;
 import org.mtransit.parser.gtfs.data.GStop;
-import org.mtransit.parser.gtfs.data.GTrip;
 import org.mtransit.parser.mt.data.MAgency;
-import org.mtransit.parser.mt.data.MRoute;
-import org.mtransit.parser.mt.data.MTrip;
 
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.mtransit.parser.StringUtils.EMPTY;
-
 // http://www.niagararegion.ca/government/opendata/data-set.aspx#id=32
 // https://maps.niagararegio n.ca/googletransit/NiagaraRegionTransit.zip
+// https://niagaraopendata.ca/dataset/1a1b885e-1a86-415d-99aa-6803a2d8f178/resource/52c8cd46-d976-4d57-990f-e8018bcd27cb/download/gtfs.zip
 public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 
-	public static void main(@Nullable String[] args) {
-		if (args == null || args.length == 0) {
-			args = new String[3];
-			args[0] = "input/gtfs.zip";
-			args[1] = "../../mtransitapps/ca-st-catharines-transit-bus-android/res/raw/";
-			args[2] = ""; // files-prefix
-		}
+	public static void main(@NotNull String[] args) {
 		new StCatharinesTransitBusAgencyTools().start(args);
 	}
 
-	@Nullable
-	private HashSet<Integer> serviceIdInts;
-
 	@Override
-	public void start(@NotNull String[] args) {
-		MTLog.log("Generating St Catharines Transit bus data...");
-		long start = System.currentTimeMillis();
-		this.serviceIdInts = extractUsefulServiceIdInts(args, this, true);
-		super.start(args);
-		MTLog.log("Generating St Catharines Transit bus data... DONE in %s.", Utils.getPrettyDuration(System.currentTimeMillis() - start));
+	public boolean defaultExcludeEnabled() {
+		return true;
 	}
 
+	@NotNull
 	@Override
-	public boolean excludingAll() {
-		return this.serviceIdInts != null && this.serviceIdInts.isEmpty();
-	}
-
-	@Override
-	public boolean excludeCalendar(@NotNull GCalendar gCalendar) {
-		if (this.serviceIdInts != null) {
-			return excludeUselessCalendarInt(gCalendar, this.serviceIdInts);
-		}
-		return super.excludeCalendar(gCalendar);
-	}
-
-	@Override
-	public boolean excludeCalendarDate(@NotNull GCalendarDate gCalendarDates) {
-		if (this.serviceIdInts != null) {
-			return excludeUselessCalendarDateInt(gCalendarDates, this.serviceIdInts);
-		}
-		return super.excludeCalendarDate(gCalendarDates);
-	}
-
-	@Override
-	public boolean excludeTrip(@NotNull GTrip gTrip) {
-		if (this.serviceIdInts != null) {
-			return excludeUselessTripInt(gTrip, this.serviceIdInts);
-		}
-		return super.excludeTrip(gTrip);
+	public String getAgencyName() {
+		return "St Catharines Transit";
 	}
 
 	private static final String ST_CATHARINES_TRANSIT_COMMISSION = "St. Catharines Transit Commission";
@@ -86,20 +44,23 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		//noinspection deprecation
 		final String agencyId = gRoute.getAgencyIdOrDefault();
 		if (!agencyId.contains(ST_CATHARINES_TRANSIT_COMMISSION)
-				&& !agencyId.contains("AllNRT_")) {
-			return true; // exclude
+				&& !agencyId.contains("AllNRT_")
+				&& !agencyId.equals("1")) {
+			return EXCLUDE;
 		}
-		if (agencyId.contains("AllNRT_")) {
-			if (!Utils.isDigitsOnly(gRoute.getRouteShortName())) {
-				return true; // exclude
+		if (agencyId.contains("AllNRT_")
+				|| agencyId.equals("1")) {
+			final String rsnS = gRoute.getRouteShortName();
+			if (!CharUtils.isDigitsOnly(rsnS)) {
+				return EXCLUDE;
 			}
-			final int rsn = Integer.parseInt(gRoute.getRouteShortName());
+			final int rsn = Integer.parseInt(rsnS);
 			if (rsn < 300 || rsn > 499) {
-				return true; // exclude
+				return EXCLUDE;
 			}
 		}
 		if (gRoute.getRouteLongNameOrDefault().startsWith("IMT - ")) {
-			return true; // exclude // Niagara Region Transit
+			return EXCLUDE; // Niagara Region Transit
 		}
 		return super.excludeRoute(gRoute);
 	}
@@ -232,21 +193,8 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	@Override
-	public void setTripHeadsign(@NotNull MRoute mRoute, @NotNull MTrip mTrip, @NotNull GTrip gTrip, @NotNull GSpec gtfs) {
-		mTrip.setHeadsignString(
-				cleanTripHeadsign(gTrip.getTripHeadsignOrDefault()),
-				gTrip.getDirectionIdOrDefault()
-		);
-	}
-
-	@Override
 	public boolean directionFinderEnabled() {
 		return true;
-	}
-
-	@Override
-	public boolean mergeHeadsign(@NotNull MTrip mTrip, @NotNull MTrip mTripToMerge) {
-		throw new MTLog.Fatal("Unexpected trips to merge %s & %s!", mTrip, mTripToMerge);
 	}
 
 	private static final Pattern STARTS_WITH_RSN_RLN = Pattern.compile("(^[0-9]{1,3}[A-Z]? (([\\w]+[.]? )+- )*)", Pattern.CASE_INSENSITIVE);
@@ -316,7 +264,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		if (StringUtils.isEmpty(stopCode)) {
 			throw new MTLog.Fatal("Unexpected stop code for %s!", gStop);
 		}
-		if (Utils.isDigitsOnly(stopCode)) {
+		if (CharUtils.isDigitsOnly(stopCode)) {
 			stopCode = Integer.valueOf(stopCode).toString(); // remove leading 0s
 		}
 		return stopCode;
@@ -459,7 +407,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		if (stopCode.isEmpty()) {
 			throw new MTLog.Fatal("Unexpected stop ID '%s' (%s)!", stopCode, gStop);
 		}
-		if (Utils.isDigitsOnly(stopCode)) {
+		if (CharUtils.isDigitsOnly(stopCode)) {
 			return Integer.parseInt(stopCode); // using stop code as stop ID
 		}
 		//noinspection IfCanBeSwitch // TODO?
