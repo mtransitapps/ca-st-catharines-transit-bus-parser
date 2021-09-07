@@ -9,6 +9,7 @@ import org.mtransit.commons.CleanUtils;
 import org.mtransit.commons.StringUtils;
 import org.mtransit.parser.DefaultAgencyTools;
 import org.mtransit.parser.MTLog;
+import org.mtransit.parser.gtfs.data.GAgency;
 import org.mtransit.parser.gtfs.data.GRoute;
 import org.mtransit.parser.gtfs.data.GStop;
 import org.mtransit.parser.mt.data.MAgency;
@@ -17,9 +18,9 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-// http://www.niagararegion.ca/government/opendata/data-set.aspx#id=32
-// https://maps.niagararegio n.ca/googletransit/NiagaraRegionTransit.zip
-// https://niagaraopendata.ca/dataset/1a1b885e-1a86-415d-99aa-6803a2d8f178/resource/52c8cd46-d976-4d57-990f-e8018bcd27cb/download/gtfs.zip
+// https://niagaraopendata.ca/dataset/niagara-region-transit-gtfs
+// https://maps.niagararegion.ca/googletransit/NiagaraRegionTransit.zip
+// https://niagaraopendata.ca/dataset/1a1b885e-1a86-415d-99aa-6803a2d8f178/resource/f7dbcaed-f31a-435e-8146-b0efff0b8eb8/download/gtfs.zip
 public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 
 	public static void main(@NotNull String[] args) {
@@ -38,6 +39,18 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	private static final String ST_CATHARINES_TRANSIT_COMMISSION = "St. Catharines Transit Commission";
+
+	@Override
+	public boolean excludeAgency(@NotNull GAgency gAgency) {
+		//noinspection deprecation
+		final String agencyId = gAgency.getAgencyId();
+		if (!agencyId.contains(ST_CATHARINES_TRANSIT_COMMISSION)
+				&& !agencyId.contains("AllNRT_")
+				&& !agencyId.equals("1")) {
+			return EXCLUDE;
+		}
+		return super.excludeAgency(gAgency);
+	}
 
 	@Override
 	public boolean excludeRoute(@NotNull GRoute gRoute) {
@@ -96,6 +109,11 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String AGENCY_COLOR_GREEN = "008E1A"; // GREEN (from web site CSS)
 
 	private static final String AGENCY_COLOR = AGENCY_COLOR_GREEN;
+
+	@Override
+	public boolean defaultAgencyColorEnabled() {
+		return true;
+	}
 
 	@NotNull
 	@Override
