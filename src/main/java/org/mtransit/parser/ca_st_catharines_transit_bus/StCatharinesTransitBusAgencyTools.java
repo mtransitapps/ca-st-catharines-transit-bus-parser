@@ -1,5 +1,6 @@
 package org.mtransit.parser.ca_st_catharines_transit_bus;
 
+import static org.mtransit.commons.RegexUtils.DIGITS;
 import static org.mtransit.parser.StringUtils.EMPTY;
 
 import org.jetbrains.annotations.NotNull;
@@ -14,6 +15,7 @@ import org.mtransit.parser.gtfs.data.GRoute;
 import org.mtransit.parser.gtfs.data.GStop;
 import org.mtransit.parser.mt.data.MAgency;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,6 +27,12 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 
 	public static void main(@NotNull String[] args) {
 		new StCatharinesTransitBusAgencyTools().start(args);
+	}
+
+	@Nullable
+	@Override
+	public List<Locale> getSupportedLanguages() {
+		return LANG_EN;
 	}
 
 	@Override
@@ -94,14 +102,23 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	@Override
-	public long getRouteId(@NotNull GRoute gRoute) {
-		return Long.parseLong(gRoute.getRouteShortName()); // using route short name as route ID
+	public boolean defaultRouteIdEnabled() {
+		return true;
+	}
+
+	@Override
+	public boolean useRouteShortNameForRouteId() {
+		return true;
+	}
+
+	@Override
+	public boolean defaultRouteLongNameEnabled() {
+		return true;
 	}
 
 	@NotNull
 	@Override
-	public String getRouteLongName(@NotNull GRoute gRoute) {
-		String routeLongName = gRoute.getRouteLongNameOrDefault();
+	public String cleanRouteLongName(@NotNull String routeLongName) {
 		routeLongName = CleanUtils.cleanStreetTypes(routeLongName);
 		return CleanUtils.cleanLabel(routeLongName);
 	}
@@ -124,79 +141,74 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	@SuppressWarnings("DuplicateBranchesInSwitch")
 	@Nullable
 	@Override
-	public String getRouteColor(@NotNull GRoute gRoute) {
-		if (StringUtils.isEmpty(gRoute.getRouteColor())) {
-			int rsn = Integer.parseInt(gRoute.getRouteShortName());
-			switch (rsn) {
-			// @formatter:off
-			case 21: return null; // TODO ?
-			case 26: return "ED1B24";
-			case 27: return "ED1B24";
-			case 88: return null; // TODO ?
-			case 301: return "ED1B24";
-			case 302: return "00A650";
-			case 303: return "ED008C";
-			case 304: return "F68713";
-			case 305: return "8E1890";
-			case 306: return "ED1B24";
-			case 307: return "4CC6F5";
-			case 308: return "48A1AF";
-			case 309: return "48A1AF";
-			case 310: return "24528E";
-			case 311: return "0A8ED8";
-			case 312: return "00A650";
-			case 314: return "C81070";
-			case 315: return "00823C";
-			case 316: return "ED1B24";
-			case 317: return "8E1890";
-			case 318: return "00823C";
-			case 320: return "485683";
-			case 321: return "486762";
-			case 322: return "F25373";
-			case 323: return "8E1890";
-			case 324: return "0060AD"; // BLUE
-			case 325: return "ED1B24";
-			case 326: return "ED1B24";
-			case 327: return "ED1B24";
-			case 328: return "92D050";
-			case 329: return "3A9CB9";
-			case 330: return "005FAC";
-			case 331: return "00A551";
-			case 332: return "166FC1";
-			case 333: return "166FC1";
-			case 335: return "4CA392";
-			case 336: return "E24E26";
-			case 337: return "F58345"; // FLAMENCO
-			case 401: return "EE1C25"; // RED
-			case 402: return "0072BB"; // BLUE
-			case 404: return "00ADEF"; // LIGHT BLUE
-			case 406: return "EE1C25"; // RED
-			case 408: return "00A652"; // GREEN
-			case 409: return "A88B6B"; // LIGHT BROWN
-			case 410: return "05558A"; // DRAK BLUE
-			case 412: return "0072BB"; // BLUE
-			case 414: return "C81c6E"; // PURPLE
-			case 415: return "008744"; // GREEN
-			case 416: return "EE1C25"; // RED
-			case 417: return "A88B6B"; // LIGHT BROWN
-			case 418: return "008744"; // GREEN
-			case 420: return "485E87"; // BLUE-ISH
-			case 421: return "486F6E"; // GREEN-ISH
-			case 423: return "7570B3"; // LIGHT PURPLE // ?
-			case 424: return "0060AD"; // BLUE
-			case 425: return null; // TODO ?
-			case 428: return "A3CE62"; // LIGHT GREEN
-			case 431: return "00A652"; // GREEN
-			case 432: return "ED008E"; // PINK
-			case 435: return "4FA491";
-			case 436: return "F58345"; // ORANGE
-			case 437: return "F58345"; // FLAMENCO
-			// @formatter:on
-			default:
-				throw new MTLog.Fatal("Unexpected route color for %s!", gRoute);
-			}
+	public String provideMissingRouteColor(@NotNull GRoute gRoute) {
+		final int rsn = Integer.parseInt(gRoute.getRouteShortName());
+		switch (rsn) {
+		// @formatter:off
+		case 26: return "ED1B24";
+		case 27: return "ED1B24";
+		case 301: return "ED1B24";
+		case 302: return "00A650";
+		case 303: return "ED008C";
+		case 304: return "F68713";
+		case 305: return "8E1890";
+		case 306: return "ED1B24";
+		case 307: return "4CC6F5";
+		case 308: return "48A1AF";
+		case 309: return "48A1AF";
+		case 310: return "24528E";
+		case 311: return "0A8ED8";
+		case 312: return "00A650";
+		case 314: return "C81070";
+		case 315: return "00823C";
+		case 316: return "ED1B24";
+		case 317: return "8E1890";
+		case 318: return "00823C";
+		case 320: return "485683";
+		case 321: return "486762";
+		case 322: return "F25373";
+		case 323: return "8E1890";
+		case 324: return "0060AD"; // BLUE
+		case 325: return "ED1B24";
+		case 326: return "ED1B24";
+		case 327: return "ED1B24";
+		case 328: return "92D050";
+		case 329: return "3A9CB9";
+		case 330: return "005FAC";
+		case 331: return "00A551";
+		case 332: return "166FC1";
+		case 333: return "166FC1";
+		case 335: return "4CA392";
+		case 336: return "E24E26";
+		case 337: return "F58345"; // FLAMENCO
+		case 401: return "EE1C25"; // RED
+		case 402: return "0072BB"; // BLUE
+		case 404: return "00ADEF"; // LIGHT BLUE
+		case 406: return "EE1C25"; // RED
+		case 408: return "00A652"; // GREEN
+		case 409: return "A88B6B"; // LIGHT BROWN
+		case 410: return "05558A"; // DRAK BLUE
+		case 412: return "0072BB"; // BLUE
+		case 414: return "C81c6E"; // PURPLE
+		case 415: return "008744"; // GREEN
+		case 416: return "EE1C25"; // RED
+		case 417: return "A88B6B"; // LIGHT BROWN
+		case 418: return "008744"; // GREEN
+		case 420: return "485E87"; // BLUE-ISH
+		case 421: return "486F6E"; // GREEN-ISH
+		case 423: return "7570B3"; // LIGHT PURPLE // ?
+		case 424: return "0060AD"; // BLUE
+		case 425: return "B3B3B3"; // WHITE
+		case 428: return "A3CE62"; // LIGHT GREEN
+		case 431: return "00A652"; // GREEN
+		case 432: return "ED008E"; // PINK
+		case 435: return "4FA491";
+		case 436: return "F58345"; // ORANGE
+		case 437: return "F58345"; // FLAMENCO
+		// @formatter:on
+		default:
+			throw new MTLog.Fatal("Unexpected route color for %s!", gRoute);
 		}
-		return super.getRouteColor(gRoute);
 	}
 
 	private static final Pattern STARTS_WITH_STC_A00_ = Pattern.compile( //
@@ -225,7 +237,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	@NotNull
 	@Override
 	public String cleanTripHeadsign(@NotNull String tripHeadsign) {
-		tripHeadsign = CleanUtils.toLowerCaseUpperCaseWords(Locale.ENGLISH, tripHeadsign, getIgnoredWords());
+		tripHeadsign = CleanUtils.toLowerCaseUpperCaseWords(getFirstLanguageNN(), tripHeadsign, getIgnoredWords());
 		tripHeadsign = STARTS_WITH_RSN_RLN.matcher(tripHeadsign).replaceAll(EMPTY);
 		tripHeadsign = STARTS_WITH_RLN_DASH.matcher(tripHeadsign).replaceAll(EMPTY);
 		tripHeadsign = CleanUtils.keepTo(tripHeadsign);
@@ -256,7 +268,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	@NotNull
 	@Override
 	public String cleanStopName(@NotNull String gStopName) {
-		gStopName = CleanUtils.toLowerCaseUpperCaseWords(Locale.ENGLISH, gStopName, getIgnoredWords());
+		gStopName = CleanUtils.toLowerCaseUpperCaseWords(getFirstLanguageNN(), gStopName, getIgnoredWords());
 		gStopName = AND_NOT.matcher(gStopName).replaceAll(AND_NOT_REPLACEMENT); // fix Alex&ra
 		gStopName = CleanUtils.CLEAN_AND.matcher(gStopName).replaceAll(CleanUtils.CLEAN_AND_REPLACEMENT);
 		gStopName = AT.matcher(gStopName).replaceAll(AT_REPLACEMENT);
@@ -287,8 +299,6 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		}
 		return stopCode;
 	}
-
-	private static final Pattern DIGITS = Pattern.compile("[\\d]+");
 
 	private static final Pattern IGNORE_STOP_ID = Pattern.compile("(^(S_FE|NF|PC|WE))", Pattern.CASE_INSENSITIVE);
 
@@ -428,7 +438,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		if (CharUtils.isDigitsOnly(stopCode)) {
 			return Integer.parseInt(stopCode); // using stop code as stop ID
 		}
-		//noinspection IfCanBeSwitch // TODO?
+		//noinspection IfCanBeSwitch // TO DO?
 		if (stopCode.equals(DTT)) {
 			return 100000;
 		} else if (stopCode.equals(NFT)) {
@@ -535,7 +545,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 			return 1399;
 		}
 		try {
-			Matcher matcher = DIGITS.matcher(stopCode);
+			final Matcher matcher = DIGITS.matcher(stopCode);
 			if (matcher.find()) {
 				int digits = Integer.parseInt(matcher.group());
 				if (stopCode.startsWith(CD)) {
