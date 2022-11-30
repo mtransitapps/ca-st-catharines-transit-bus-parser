@@ -116,11 +116,6 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		return true;
 	}
 
-	@Override
-	public boolean forceStopTimeFirstNoDropOffLastNoPickupType() {
-		return true; // columns are provided by always REGULAR(0)
-	}
-
 	@NotNull
 	@Override
 	public String cleanRouteLongName(@NotNull String routeLongName) {
