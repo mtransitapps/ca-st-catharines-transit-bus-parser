@@ -212,7 +212,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	private static final Pattern STARTS_WITH_STC_A00_ = Pattern.compile( //
-			"((^)((allnrt|stc)_[a-z]{1,3}[\\d]{2,4}(_)?([A-Z]{3}(stop))?(stop)?))", //
+			"((^)((allnrt|stc)_[a-z]{1,3}\\d{2,4}(_)?([A-Z]{3}(stop))?(stop)?))", //
 			Pattern.CASE_INSENSITIVE);
 
 	@NotNull
@@ -227,7 +227,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 		return true;
 	}
 
-	private static final Pattern STARTS_WITH_RSN_RLN = Pattern.compile("(^[0-9]{1,3}[A-Z]? (([\\w]+[.]? )+- )*)", Pattern.CASE_INSENSITIVE);
+	private static final Pattern STARTS_WITH_RSN_RLN = Pattern.compile("(^[0-9]{1,3}[A-Z]? ((\\w+[.]? )+- )*)", Pattern.CASE_INSENSITIVE);
 
 	private static final Pattern STARTS_WITH_RLN_DASH = Pattern.compile("(^([^\\-]+- )+)", Pattern.CASE_INSENSITIVE);
 
@@ -257,7 +257,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 			"opp", "south of", "west of");
 	private static final String AT_REPLACEMENT = CleanUtils.cleanWordsReplacement("/");
 
-	private static final Pattern ENDS_WITH = Pattern.compile("(([&/\\-])[\\W]*$)", Pattern.CASE_INSENSITIVE);
+	private static final Pattern ENDS_WITH = Pattern.compile("(([&/\\-])\\W*$)", Pattern.CASE_INSENSITIVE);
 
 	private String[] getIgnoredWords() {
 		return new String[]{
@@ -285,7 +285,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 	@Override
 	public String getStopCode(@NotNull GStop gStop) { // used by REAL-TIME API
 		String stopCode = gStop.getStopCode();
-		if (stopCode.length() == 0
+		if (stopCode.isEmpty()
 				|| ZERO_0.equals(stopCode)) {
 			//noinspection deprecation
 			stopCode = gStop.getStopId();
@@ -428,7 +428,7 @@ public class StCatharinesTransitBusAgencyTools extends DefaultAgencyTools {
 			return -1; // other agency
 		}
 		String stopCode = gStop.getStopCode();
-		if (stopCode.length() == 0 || ZERO_0.equals(stopCode)) {
+		if (stopCode.isEmpty() || ZERO_0.equals(stopCode)) {
 			stopCode = stopId;
 		}
 		stopCode = STARTS_WITH_STC_A00_.matcher(stopCode).replaceAll(EMPTY);
